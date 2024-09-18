@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { ApiService } from './services/api.service';
 
 @Component({
   selector: 'app-root',
@@ -8,22 +9,15 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'postrify';
 
-  constructor() {
-    fetch('http://localhost:8080/')
-      .then(response => {
-        if (response.ok) {
-          return response.text();
-        }
-        throw new Error('Network response was not ok');
-      })
-      .then(data => {
-        console.log(data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
+  constructor(private apiService: ApiService) {}
+
+  ngOnInit() {
+    this.apiService.getData().subscribe({
+      next: (data) => console.log(data),
+      error: (error) => console.error('Error fetching data:', error)
+    });
   }
 }
