@@ -1,4 +1,4 @@
-name: Deploy to Fly.io
+name: Deploy Backend
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   deploy:
-    name: Deploy app
+    name: Deploy to Fly.io
     runs-on: ubuntu-latest
     defaults:
       run:
