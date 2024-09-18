@@ -8,6 +8,6 @@ public class HomeController {
 
     @GetMapping("/")
     public String home() {
-        return "Welcome to Postrify Backend!";
+        return "Hello from Postrify Backend!";
     }
 }
