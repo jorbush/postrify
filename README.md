@@ -49,6 +49,10 @@ cd postrify-backend
 #### Run backend
 
 ```bash
+./mvnw spring-boot:run
+```
+Or:
+```bash
 ./mvnw clean package
 java -jar target/postrify-0.0.1-SNAPSHOT.jar
 ```
