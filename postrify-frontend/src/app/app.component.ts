@@ -7,7 +7,7 @@ import { ApiService } from './services/api.service';
   standalone: true,
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
   title = 'postrify';
@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.apiService.getData().subscribe({
       next: (data) => console.log(data),
-      error: (error) => console.error('Error fetching data:', error)
+      error: (error) => console.error('Error fetching data:', error),
     });
   }
 }
