@@ -1,0 +1,28 @@
+name: Java Formatter
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  spotless:
+    runs-on: ubuntu-latest
+    defaults:
+        run:
+            working-directory: postrify-backend
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Run Spotless Check
+        run: ./mvnw spotless:check

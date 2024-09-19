@@ -58,3 +58,15 @@ java -jar target/postrify-0.0.1-SNAPSHOT.jar
 ```bash
 ./mvnw test
 ```
+
+#### Linter
+
+```bash
+./mvnw checkstyle:check
+```
+
+#### Format code
+
+```bash
+./mvnw spotless:apply
+```

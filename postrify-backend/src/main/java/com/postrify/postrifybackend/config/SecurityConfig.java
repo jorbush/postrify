@@ -8,13 +8,11 @@ import org.springframework.security.web.SecurityFilterChain;
 @org.springframework.context.annotation.Configuration
 public class SecurityConfig {
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/**").permitAll()
-                    .anyRequest().authenticated()
-            );
-        return http.build();
-    }
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http.csrf(AbstractHttpConfigurer::disable)
+        .authorizeHttpRequests(
+            auth -> auth.requestMatchers("/**").permitAll().anyRequest().authenticated());
+    return http.build();
+  }
 }
