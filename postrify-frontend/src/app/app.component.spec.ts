@@ -1,10 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { ApiService } from './services/api.service';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
+      providers: [
+        ApiService,
+        provideHttpClient(),
+        provideHttpClientTesting()
+      ]
     }).compileComponents();
   });
 
@@ -14,18 +22,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'postrify-frontend' title`, () => {
+  it(`should have the 'postrify' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('postrify-frontend');
+    expect(app.title).toEqual('postrify');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain(
-      'Hello, postrify-frontend',
-    );
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, postrify');
   });
 });
