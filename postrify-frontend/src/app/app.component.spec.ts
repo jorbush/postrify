@@ -8,11 +8,7 @@ describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
-      providers: [
-        ApiService,
-        provideHttpClient(),
-        provideHttpClientTesting()
-      ]
+      providers: [ApiService, provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
   });
 
@@ -32,6 +28,8 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, postrify');
+    expect(compiled.querySelector('h1')?.textContent).toContain(
+      'Hello, postrify',
+    );
   });
 });
