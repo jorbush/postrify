@@ -10,8 +10,7 @@ public class WebConfig implements WebMvcConfigurer {
   public void addCorsMappings(final CorsRegistry registry) {
     registry
         .addMapping("/**")
-        .allowedOrigins("http://localhost:4200")
-        .allowedOrigins("https://postrify.vercel.app")
+        .allowedOrigins("http://localhost:4200", "https://postrify.vercel.app")
         .allowedMethods("GET", "POST", "PUT", "DELETE")
         .allowedHeaders("*")
         .allowCredentials(true);
