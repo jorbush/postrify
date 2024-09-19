@@ -12,19 +12,47 @@ jobs:
   maven-test:
     runs-on: ubuntu-latest
     defaults:
-      run:
-        working-directory: postrify-backend
+        run:
+            working-directory: postrify-backend
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_DB: postrify_test_db
+          POSTGRES_USER: postrify_user
+          POSTGRES_PASSWORD: postrify_password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postrify_user -d postrify_test_db"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v1
-      with:
-        java-version: '17'
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
 
-    - name: Build with Maven
-      run: ./mvnw clean install
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
 
-    - name: Run tests
-      run: ./mvnw test
+      - name: Install dependencies
+        run: mvn install -DskipTests
+
+      - name: Run tests
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/postrify_test_db
+          SPRING_DATASOURCE_USERNAME: postrify_user
+          SPRING_DATASOURCE_PASSWORD: postrify_password
+        run: mvn test
