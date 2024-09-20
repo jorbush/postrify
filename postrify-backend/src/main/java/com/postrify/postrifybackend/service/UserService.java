@@ -26,6 +26,7 @@ public class UserService {
             throw new RuntimeException("Email is already in use!");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        System.out.println("Encrypted password: " + user.getPassword());
         return userRepository.save(user);
     }
 

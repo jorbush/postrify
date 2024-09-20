@@ -1,6 +1,7 @@
 package com.postrify.postrifybackend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -44,17 +45,23 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
-    @PostMapping("/signin")
+    @PostMapping(value = "/signin", produces = "application/json")
     public ResponseEntity<?> authenticateUser(@Validated @RequestBody LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
-        );
+        try {
+            System.out.println("Received loginRequest: " + loginRequest.getUsername());
+            Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
+            );
+            System.out.println("Authentication: " + authentication);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtTokenProvider.generateToken(authentication);
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtTokenProvider.generateToken(authentication);
-
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername()));
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            System.out.println("Returning jwt response");
+            return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername()));
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageResponse("Invalid credentials!"));
+        }
     }
 }

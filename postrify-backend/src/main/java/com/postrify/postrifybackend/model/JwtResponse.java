@@ -2,12 +2,18 @@ package com.postrify.postrifybackend.model;
 
 public class JwtResponse {
     private String token;
-    private String type = "Bearer";
     private String username;
 
-    public JwtResponse(String accessToken, String username) {
-        this.token = accessToken;
+    public JwtResponse(String token, String username) {
+        this.token = token;
         this.username = username;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public String getUsername() {
+        return username;
+    }
 }

@@ -22,6 +22,7 @@ public class LoginRequest {
     }
 
     public String getPassword() {
+        System.out.println("Returning password: " + password);
         return password;
     }
 }

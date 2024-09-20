@@ -23,15 +23,9 @@ export class LoginComponent {
   constructor(private authService: AuthService) { }
 
   onSubmit() {
-    this.authService.login(this.username, this.password).subscribe(
-      response => {
-        localStorage.setItem('token', response.token);
-        // Navigate to home page or dashboard
-      },
-      error => {
-        console.error('Login failed:', error);
-        // Handle error (show message to user)
-      }
-    );
+    this.authService.login(this.username, this.password).subscribe({
+      next: (data) => console.log(data),
+      error: (error) => console.error('Error logging in:', error),
+    });
   }
 }
