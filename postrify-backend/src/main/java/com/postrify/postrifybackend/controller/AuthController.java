@@ -33,12 +33,10 @@ public class AuthController {
   @PostMapping(value = "/signup", produces = "application/json")
   public ResponseEntity<?> registerUser(@Validated @RequestBody SignUpRequest signUpRequest) {
     System.out.println("Received signUpRequest: " + signUpRequest.getUsername());
-
     User user =
         new User(
             signUpRequest.getUsername(), signUpRequest.getEmail(), signUpRequest.getPassword());
     userService.registerUser(user);
-
     System.out.println("Returning success message");
     return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
   }
@@ -51,10 +49,8 @@ public class AuthController {
           authenticationManager.authenticate(
               new UsernamePasswordAuthenticationToken(
                   loginRequest.getUsername(), loginRequest.getPassword()));
-      System.out.println("Authentication: " + authentication);
       SecurityContextHolder.getContext().setAuthentication(authentication);
       String jwt = jwtTokenProvider.generateToken(authentication);
-
       UserDetails userDetails = (UserDetails) authentication.getPrincipal();
       System.out.println("Returning jwt response");
       return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername()));
