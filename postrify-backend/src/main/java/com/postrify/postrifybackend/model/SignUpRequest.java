@@ -5,38 +5,34 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 public class SignUpRequest {
-    @NotBlank
-    @Size(min = 3, max = 20)
-    private String username;
+  @NotBlank
+  @Size(min = 3, max = 20)
+  private String username;
 
-    @NotBlank
-    @Size(max = 50)
-    @Email
-    private String email;
+  @NotBlank
+  @Size(max = 50)
+  @Email
+  private String email;
 
-    @NotBlank
-    @Size(min = 6, max = 40)
-    private String password;
+  @NotBlank
+  @Size(min = 6, max = 40)
+  private String password;
 
-    public SignUpRequest(
-        String username,
-        String email,
-        String password
-    ) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-    }
+  public SignUpRequest(String username, String email, String password) {
+    this.username = username;
+    this.email = email;
+    this.password = password;
+  }
 
-    public String getUsername() {
-        return username;
-    }
+  public String getUsername() {
+    return username;
+  }
 
-    public String getPassword() {
-        return password;
-    }
+  public String getPassword() {
+    return password;
+  }
 
-    public String getEmail() {
-        return email;
-    }
+  public String getEmail() {
+    return email;
+  }
 }
