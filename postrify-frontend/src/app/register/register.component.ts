@@ -33,9 +33,9 @@ import { FormsModule } from '@angular/forms';
   `,
 })
 export class RegisterComponent {
-  username: string = '';
-  email: string = '';
-  password: string = '';
+  username = '';
+  email = '';
+  password = '';
 
   constructor(private authService: AuthService) {}
 

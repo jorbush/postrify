@@ -32,7 +32,9 @@ describe('LoginComponent', () => {
   });
 
   it('should call login on AuthService and handle success', () => {
-    authService.login.and.returnValue(of({ token: 'jwt_token' }));
+    authService.login.and.returnValue(
+      of({ token: 'jwt_token', username: 'jordi' }),
+    );
 
     component.username = 'jordi';
     component.password = '123456';

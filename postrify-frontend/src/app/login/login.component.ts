@@ -26,8 +26,8 @@ import { FormsModule } from '@angular/forms';
   `,
 })
 export class LoginComponent {
-  username: string = '';
-  password: string = '';
+  username = '';
+  password = '';
 
   constructor(private authService: AuthService) {}
 
