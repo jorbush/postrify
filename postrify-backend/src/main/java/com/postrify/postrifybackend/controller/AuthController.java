@@ -42,7 +42,8 @@ public class AuthController {
   }
 
   @PostMapping(value = "/signin", produces = "application/json")
-  public ResponseEntity<?> authenticateUser(@Validated @RequestBody final LoginRequest loginRequest) {
+  public ResponseEntity<?> authenticateUser(
+      @Validated @RequestBody final LoginRequest loginRequest) {
     try {
       System.out.println("Received loginRequest: " + loginRequest.getUsername());
       Authentication authentication =
