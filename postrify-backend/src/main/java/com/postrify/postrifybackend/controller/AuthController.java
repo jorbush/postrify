@@ -33,11 +33,14 @@ public class AuthController {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
-    @PostMapping("/signup")
+    @PostMapping(value = "/signup", produces = "application/json")
     public ResponseEntity<?> registerUser(@Validated @RequestBody SignUpRequest signUpRequest) {
+        System.out.println("Received signUpRequest: " + signUpRequest.getUsername());
+
         User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(), signUpRequest.getPassword());
         userService.registerUser(user);
 
+        System.out.println("Returning success message");
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 

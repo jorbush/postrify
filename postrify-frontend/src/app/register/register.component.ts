@@ -25,15 +25,9 @@ export class RegisterComponent {
   constructor(private authService: AuthService) { }
 
   onSubmit() {
-    this.authService.register(this.username, this.email, this.password).subscribe(
-      response => {
-        console.log('Registration successful');
-        // Navigate to login page or show success message
-      },
-      error => {
-        console.error('Registration failed:', error);
-        // Handle error (show message to user)
-      }
-    );
+    this.authService.register(this.username, this.email, this.password).subscribe({
+      next: (data) => console.log(data),
+      error: (error) => console.error('Error registering:', error),
+    });
   }
 }
