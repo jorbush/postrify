@@ -37,14 +37,14 @@ public class SecurityConfig {
   }
 
   @Bean
-  public AuthenticationManager authenticationManagerBean(HttpSecurity http) throws Exception {
+  public AuthenticationManager authenticationManagerBean(final HttpSecurity http) throws Exception {
     AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
     authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     return authenticationManagerBuilder.build();
   }
 
   @Bean
-  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+  public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
     http.csrf(csrf -> csrf.disable())
         .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
         .sessionManagement(

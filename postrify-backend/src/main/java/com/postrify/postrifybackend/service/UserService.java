@@ -13,12 +13,12 @@ public class UserService {
   private final PasswordEncoder passwordEncoder;
 
   @Autowired
-  public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+  public UserService(final UserRepository userRepository, final PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
   }
 
-  public User registerUser(User user) {
+  public User registerUser(final User user) {
     if (userRepository.existsByUsername(user.getUsername())) {
       throw new RuntimeException("Username is already taken!");
     }
@@ -29,7 +29,7 @@ public class UserService {
     return userRepository.save(user);
   }
 
-  public User findByUsername(String username) {
+  public User findByUsername(final String username) {
     return userRepository
         .findByUsername(username)
         .orElseThrow(() -> new RuntimeException("User not found"));

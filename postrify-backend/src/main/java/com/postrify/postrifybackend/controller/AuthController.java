@@ -31,7 +31,7 @@ public class AuthController {
   @Autowired private JwtTokenProvider jwtTokenProvider;
 
   @PostMapping(value = "/signup", produces = "application/json")
-  public ResponseEntity<?> registerUser(@Validated @RequestBody SignUpRequest signUpRequest) {
+  public ResponseEntity<?> registerUser(@Validated @RequestBody final SignUpRequest signUpRequest) {
     System.out.println("Received signUpRequest: " + signUpRequest.getUsername());
     User user =
         new User(
@@ -42,7 +42,7 @@ public class AuthController {
   }
 
   @PostMapping(value = "/signin", produces = "application/json")
-  public ResponseEntity<?> authenticateUser(@Validated @RequestBody LoginRequest loginRequest) {
+  public ResponseEntity<?> authenticateUser(@Validated @RequestBody final LoginRequest loginRequest) {
     try {
       System.out.println("Received loginRequest: " + loginRequest.getUsername());
       Authentication authentication =

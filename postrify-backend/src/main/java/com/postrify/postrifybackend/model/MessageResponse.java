@@ -3,7 +3,7 @@ package com.postrify.postrifybackend.model;
 public class MessageResponse {
   private String message;
 
-  public MessageResponse(String message) {
+  public MessageResponse(final String message) {
     this.message = message;
   }
 
@@ -11,7 +11,7 @@ public class MessageResponse {
     return message;
   }
 
-  public void setMessage(String message) {
+  public void setMessage(final String message) {
     this.message = message;
   }
 }
