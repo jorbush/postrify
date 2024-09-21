@@ -11,11 +11,13 @@ import { HeaderComponent } from './header/header.component';
     <app-header></app-header>
     <router-outlet></router-outlet>
   `,
-  styles: [`
-    :host {
-      display: block;
-    }
-  `]
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+    `,
+  ],
 })
 export class AppComponent implements OnInit {
   title = 'postrify';
