@@ -16,9 +16,9 @@ import { RouterLink } from '@angular/router';
           }
         </button>
       </div>
-      <div class="logo-container">
+      <a class="logo-container" routerLink="/">
         <img [src]="logoSrc" alt="Postrify Logo" class="logo">
-      </div>
+      </a>
       <div class="auth-container">
         <a routerLink="/login" class="auth-button">Login</a>
       </div>
@@ -32,6 +32,7 @@ import { RouterLink } from '@angular/router';
       padding: 0.5rem 1rem;
       background-color: var(--header-bg);
       color: var(--header-text);
+      border-bottom: 1px solid rgba(0,0,0,0.1);
     }
 
     .toggle-container, .logo-container, .auth-container {
@@ -57,6 +58,11 @@ import { RouterLink } from '@angular/router';
       color: var(--header-text);
       border: 1px solid var(--header-text);
       border-radius: 4px;
+    }
+
+    .auth-button:hover {
+      background-color: var(--header-text);
+      color: var(--header-bg);
     }
 
     button {
