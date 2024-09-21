@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   template: `
     <form (ngSubmit)="onSubmit()">
       <input
@@ -23,6 +24,7 @@ import { FormsModule } from '@angular/forms';
       />
       <button type="submit">Login</button>
     </form>
+    <button routerLink="/register" class="auth-button">Sign Up</button>
   `,
 })
 export class LoginComponent {

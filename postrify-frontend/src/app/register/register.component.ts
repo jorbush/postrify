@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   template: `
     <form (ngSubmit)="onSubmit()">
       <input
@@ -30,6 +31,7 @@ import { FormsModule } from '@angular/forms';
       />
       <button type="submit">Register</button>
     </form>
+    <button routerLink="/login" class="auth-button">Login</button>
   `,
 })
 export class RegisterComponent {
