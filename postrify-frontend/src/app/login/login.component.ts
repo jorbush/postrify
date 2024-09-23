@@ -36,11 +36,11 @@ import { CommonModule } from '@angular/common';
             type="password"
             placeholder="Enter your password"
             required
-            pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+            pattern="^.{6,}$"
           />
           <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)" class="error-message">
             <span *ngIf="passwordInput.errors?.['required']">Password is required.</span>
-            <span *ngIf="passwordInput.errors?.['pattern']">Password must be at least 8 characters long and contain at least one letter and one number.</span>
+            <span *ngIf="passwordInput.errors?.['pattern']">Password must be at least 6 characters long.</span>
           </div>
         </div>
         <button type="submit" [disabled]="loginForm.invalid">Login</button>
@@ -148,7 +148,7 @@ export class LoginComponent {
 
   isFormValid(): boolean {
     const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+    const passwordRegex = /^.{6,}$/;
     return usernameRegex.test(this.username) && passwordRegex.test(this.password);
   }
 }
