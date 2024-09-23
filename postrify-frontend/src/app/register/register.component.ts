@@ -23,16 +23,19 @@ import { ToastService } from '../services/toast.service';
             required
             pattern="^[a-zA-Z0-9_]{3,20}$"
           />
-          @if (usernameInput.invalid && (usernameInput.dirty || usernameInput.touched)) {
-            <div
-              class="error-message"
-            >
+          @if (
+            usernameInput.invalid &&
+            (usernameInput.dirty || usernameInput.touched)
+          ) {
+            <div class="error-message">
               @if (usernameInput.errors?.['required']) {
                 <span>Username is required.</span>
               }
               @if (usernameInput.errors?.['pattern']) {
-                <span>Username must be 3-20 characters and can only contain letters,
-                  numbers and underscores.</span>
+                <span
+                  >Username must be 3-20 characters and can only contain
+                  letters, numbers and underscores.</span
+                >
               }
             </div>
           }
@@ -49,9 +52,7 @@ import { ToastService } from '../services/toast.service';
             pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$"
           />
           @if (emailInput.invalid && (emailInput.dirty || emailInput.touched)) {
-            <div
-              class="error-message"
-            >
+            <div class="error-message">
               @if (emailInput.errors?.['required']) {
                 <span>Email is required.</span>
               }
@@ -72,10 +73,11 @@ import { ToastService } from '../services/toast.service';
             required
             pattern="^.{6,}$"
           />
-          @if (passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)) {
-            <div
-              class="error-message"
-            >
+          @if (
+            passwordInput.invalid &&
+            (passwordInput.dirty || passwordInput.touched)
+          ) {
+            <div class="error-message">
               @if (passwordInput.errors?.['required']) {
                 <span>Password is required.</span>
               }

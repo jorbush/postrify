@@ -21,15 +21,17 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(username: string, password: string): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/signin`, {
-      username,
-      password,
-    }).pipe(
-      tap((response) => {
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('username', response.username);
+    return this.http
+      .post<LoginResponse>(`${this.apiUrl}/signin`, {
+        username,
+        password,
       })
-    );
+      .pipe(
+        tap((response) => {
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('username', response.username);
+        }),
+      );
   }
 
   register(
