@@ -18,8 +18,9 @@ import { CommonModule } from '@angular/common';
     `
       .toast {
         position: fixed;
-        top: 20px;
-        right: 20px;
+        top: 10%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         padding: 10px 20px;
         border-radius: 4px;
         color: white;
