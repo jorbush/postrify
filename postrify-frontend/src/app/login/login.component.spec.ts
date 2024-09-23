@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth.service';
 import { of, throwError } from 'rxjs';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -17,6 +18,7 @@ describe('LoginComponent', () => {
       imports: [FormsModule, LoginComponent],
       providers: [
         { provide: AuthService, useValue: authServiceSpy },
+        { provide: ActivatedRoute, useValue: {} },
         provideHttpClientTesting,
       ],
     }).compileComponents();
