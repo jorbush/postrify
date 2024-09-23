@@ -3,6 +3,7 @@ import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ToastService } from '../services/toast.service';
 
 @Component({
   selector: 'app-register',
@@ -152,13 +153,22 @@ export class RegisterComponent {
   email = '';
   password = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private toastService: ToastService
+  ) {}
 
   onSubmit() {
     if (this.isFormValid()) {
       this.authService.register(this.username, this.email, this.password).subscribe({
-        next: (data) => console.log(data),
-        error: (error) => console.error('Error registering:', error),
+        next: (data) => {
+          console.log(data);
+          this.toastService.show('Registration successful!', 'success');
+        },
+        error: (error) => {
+          console.error('Error registering:', error);
+          this.toastService.show('Registration failed. Please try again.', 'error');
+        },
       });
     }
   }

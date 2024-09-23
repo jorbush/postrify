@@ -3,6 +3,7 @@ import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ToastService } from '../services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -135,13 +136,22 @@ export class LoginComponent {
   username = '';
   password = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private toastService: ToastService
+  ) {}
 
   onSubmit() {
     if (this.isFormValid()) {
       this.authService.login(this.username, this.password).subscribe({
-        next: (data) => console.log(data),
-        error: (error) => console.error('Error logging in:', error),
+        next: (data) => {
+          console.log(data);
+          this.toastService.show('Login successful!', 'success');
+        },
+        error: (error) => {
+          console.error('Error logging in:', error);
+          this.toastService.show('Login failed. Please try again.', 'error');
+        },
       });
     }
   }

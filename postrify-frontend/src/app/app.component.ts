@@ -2,14 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ApiService } from './services/api.service';
 import { HeaderComponent } from './header/header.component';
+import { ToastComponent } from './toast/toast.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent],
+  imports: [RouterOutlet, HeaderComponent, ToastComponent],
   template: `
     <app-header></app-header>
     <router-outlet></router-outlet>
+    <app-toast></app-toast>
   `,
   styles: [
     `
