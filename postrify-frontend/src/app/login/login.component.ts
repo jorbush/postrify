@@ -163,7 +163,7 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private toastService: ToastService,
-    private router: Router
+    private router: Router,
   ) {}
 
   onSubmit() {
