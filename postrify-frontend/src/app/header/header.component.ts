@@ -104,6 +104,9 @@ import { AuthService } from '../services/auth.service';
 
       .auth-container {
         text-align: right;
+        align-items: center;
+        display: flex;
+        justify-content: flex-end;
       }
 
       .logo {
@@ -124,6 +127,7 @@ import { AuthService } from '../services/auth.service';
         margin-right: 0.5rem;
         color: var(--header-text);
         font-weight: 500;
+        padding-bottom: 5px;
       }
 
       .logout-button {
