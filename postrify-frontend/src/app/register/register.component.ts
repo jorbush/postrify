@@ -24,7 +24,7 @@ import { CommonModule } from '@angular/common';
           />
           <div *ngIf="usernameInput.invalid && (usernameInput.dirty || usernameInput.touched)" class="error-message">
             <span *ngIf="usernameInput.errors?.['required']">Username is required.</span>
-            <span *ngIf="usernameInput.errors?.['pattern']">Username must be 3-20 characters and can only contain letters, numbers, and underscores.</span>
+            <span *ngIf="usernameInput.errors?.['pattern']">Username must be 3-20 characters and can only contain letters, numbers and underscores.</span>
           </div>
         </div>
         <div class="form-group">
