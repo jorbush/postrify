@@ -7,7 +7,7 @@
   --input-bg: #ffffff;
   --border-color: #cccccc;
   --primary-color: #AEB2F7;
-  --primary-color-hover: #0056b3;
+  --primary-color-hover: #8F93F5;
   --disabled-color: #6c757d;
   --error-color: #dc3545;
   --text-color: #333333;
@@ -29,7 +29,7 @@ body.dark-mode {
   --input-bg: #3c3c3c;
   --border-color: #555555;
   --primary-color: #AEB2F7;
-  --primary-color-hover: #339af0;
+  --primary-color-hover: #8F93F5;
   --disabled-color: #6c757d;
   --error-color: #f06565;
   --text-color: #ffffff;
