@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ToastService } from '../services/toast.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -162,6 +163,7 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private toastService: ToastService,
+    private router: Router
   ) {}
 
   onSubmit() {
@@ -170,6 +172,7 @@ export class LoginComponent {
         next: (data) => {
           console.log(data);
           this.toastService.show('Login successful!', 'success');
+          this.router.navigate(['/']);
         },
         error: (error) => {
           console.error('Error logging in:', error);

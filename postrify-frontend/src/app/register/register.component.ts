@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ToastService } from '../services/toast.service';
 
@@ -190,6 +190,7 @@ export class RegisterComponent {
   constructor(
     private authService: AuthService,
     private toastService: ToastService,
+    private router: Router,
   ) {}
 
   onSubmit() {
@@ -200,6 +201,7 @@ export class RegisterComponent {
           next: (data) => {
             console.log(data);
             this.toastService.show('Registration successful!', 'success');
+            this.router.navigate(['/login']);
           },
           error: (error) => {
             console.error('Error registering:', error);
