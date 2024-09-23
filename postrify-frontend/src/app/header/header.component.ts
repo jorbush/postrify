@@ -9,14 +9,14 @@ import { AuthService } from '../services/auth.service';
   template: `
     <header>
       <div class="toggle-container">
-        <button (click)="toggleDarkMode()">
+        <button (click)="toggleDarkMode()" class="toggle-button">
           @if (isDarkMode) {
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
               viewBox="0 0 24 24"
-              fill="white"
+              fill="currentColor"
               class="icon icon-tabler icons-tabler-filled icon-tabler-moon"
             >
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -30,7 +30,7 @@ import { AuthService } from '../services/auth.service';
               width="24"
               height="24"
               viewBox="0 0 24 24"
-              fill="black"
+              fill="currentColor"
               class="icon icon-tabler icons-tabler-filled icon-tabler-sun"
             >
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -70,8 +70,10 @@ import { AuthService } from '../services/auth.service';
       </a>
       <div class="auth-container">
         @if (authService.isAuthenticated()) {
-          <span>{{ authService.getUsername() }}</span>
-          <button (click)="logout()">Logout</button>
+          <span class="username">{{ authService.getUsername() }}</span>
+          <button class="logout-button" (click)="logout()">
+            <svg xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor" stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-logout"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" /><path d="M9 12h12l-3 -3" /><path d="M18 15l3 -3" /></svg>
+          </button>
         } @else {
           <a routerLink="/login" class="auth-button">Login</a>
         }
@@ -115,6 +117,25 @@ import { AuthService } from '../services/auth.service';
         color: var(--header-text);
         border: 1px solid var(--header-text);
         border-radius: 4px;
+      }
+
+      .username {
+        font-size: 1rem;
+        margin-right: 0.5rem;
+        color: var(--header-text);
+        font-weight: 500;
+      }
+
+      .logout-button {
+        color: var(--header-text);
+      }
+
+      .toggle-button {
+        color: var(--header-text);
+      }
+
+      .toggle-button:hover, .logout-button:hover {
+        color: var(--primary-color);
       }
 
       .auth-button:hover {
