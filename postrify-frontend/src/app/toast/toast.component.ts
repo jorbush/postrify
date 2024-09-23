@@ -8,9 +8,11 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div *ngIf="toast" class="toast" [ngClass]="toast.type">
-      {{ toast.message }}
-    </div>
+    @if (toast) {
+      <div class="toast" [ngClass]="toast.type">
+        {{ toast.message }}
+      </div>
+    }
   `,
   styles: [
     `

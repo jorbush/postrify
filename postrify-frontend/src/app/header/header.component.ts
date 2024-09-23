@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -68,7 +69,12 @@ import { RouterLink } from '@angular/router';
         <img [src]="logoSrc" alt="Postrify Logo" class="logo" />
       </a>
       <div class="auth-container">
-        <a routerLink="/login" class="auth-button">Login</a>
+        @if (authService.isAuthenticated()) {
+          <span>{{ authService.getUsername() }}</span>
+          <button (click)="logout()">Logout</button>
+        } @else {
+          <a routerLink="/login" class="auth-button">Login</a>
+        }
       </div>
     </header>
   `,
@@ -128,10 +134,15 @@ import { RouterLink } from '@angular/router';
 export class HeaderComponent implements OnInit {
   isDarkMode = false;
   logoSrc = 'assets/logo-light.png';
+  isAuthenticated = false;
+  username: string | null = null;
+
+  constructor(public authService: AuthService) {}
 
   ngOnInit() {
     this.loadDarkModePreference();
     this.updateLogo();
+    this.checkAuthentication();
   }
 
   toggleDarkMode() {
@@ -159,5 +170,17 @@ export class HeaderComponent implements OnInit {
     this.logoSrc = this.isDarkMode
       ? 'postrify_logo_dark_nobg.webp'
       : 'postrify_logo_light_nobg.webp';
+  }
+
+  checkAuthentication() {
+    this.isAuthenticated = this.authService.isAuthenticated();
+    if (this.isAuthenticated) {
+      this.username = this.authService.getUsername();
+    }
+  }
+
+  logout() {
+    this.authService.logout();
+    this.isAuthenticated = false;
   }
 }

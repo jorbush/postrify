@@ -23,21 +23,19 @@ import { ToastService } from '../services/toast.service';
             required
             pattern="^[a-zA-Z0-9_]{3,20}$"
           />
-          <div
-            *ngIf="
-              usernameInput.invalid &&
-              (usernameInput.dirty || usernameInput.touched)
-            "
-            class="error-message"
-          >
-            <span *ngIf="usernameInput.errors?.['required']"
-              >Username is required.</span
+          @if (usernameInput.invalid && (usernameInput.dirty || usernameInput.touched)) {
+            <div
+              class="error-message"
             >
-            <span *ngIf="usernameInput.errors?.['pattern']"
-              >Username must be 3-20 characters and can only contain letters,
-              numbers and underscores.</span
-            >
-          </div>
+              @if (usernameInput.errors?.['required']) {
+                <span>Username is required.</span>
+              }
+              @if (usernameInput.errors?.['pattern']) {
+                <span>Username must be 3-20 characters and can only contain letters,
+                  numbers and underscores.</span>
+              }
+            </div>
+          }
         </div>
         <div class="form-group">
           <label for="email">Email</label>
@@ -50,19 +48,18 @@ import { ToastService } from '../services/toast.service';
             required
             pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$"
           />
-          <div
-            *ngIf="
-              emailInput.invalid && (emailInput.dirty || emailInput.touched)
-            "
-            class="error-message"
-          >
-            <span *ngIf="emailInput.errors?.['required']"
-              >Email is required.</span
+          @if (emailInput.invalid && (emailInput.dirty || emailInput.touched)) {
+            <div
+              class="error-message"
             >
-            <span *ngIf="emailInput.errors?.['pattern']"
-              >Please enter a valid email address.</span
-            >
-          </div>
+              @if (emailInput.errors?.['required']) {
+                <span>Email is required.</span>
+              }
+              @if (emailInput.errors?.['pattern']) {
+                <span>Please enter a valid email address.</span>
+              }
+            </div>
+          }
         </div>
         <div class="form-group">
           <label for="password">Password</label>
@@ -75,20 +72,18 @@ import { ToastService } from '../services/toast.service';
             required
             pattern="^.{6,}$"
           />
-          <div
-            *ngIf="
-              passwordInput.invalid &&
-              (passwordInput.dirty || passwordInput.touched)
-            "
-            class="error-message"
-          >
-            <span *ngIf="passwordInput.errors?.['required']"
-              >Password is required.</span
+          @if (passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)) {
+            <div
+              class="error-message"
             >
-            <span *ngIf="passwordInput.errors?.['pattern']"
-              >Password must be at least 6 characters long.</span
-            >
-          </div>
+              @if (passwordInput.errors?.['required']) {
+                <span>Password is required.</span>
+              }
+              @if (passwordInput.errors?.['pattern']) {
+                <span>Password must be at least 6 characters long.</span>
+              }
+            </div>
+          }
         </div>
         <button type="submit" [disabled]="registerForm.invalid">
           Register

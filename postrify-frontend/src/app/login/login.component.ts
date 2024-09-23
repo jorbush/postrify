@@ -24,21 +24,20 @@ import { Router } from '@angular/router';
             required
             pattern="^[a-zA-Z0-9_]{3,20}$"
           />
-          <div
-            *ngIf="
-              usernameInput.invalid &&
-              (usernameInput.dirty || usernameInput.touched)
-            "
-            class="error-message"
-          >
-            <span *ngIf="usernameInput.errors?.['required']"
-              >Username is required.</span
-            >
-            <span *ngIf="usernameInput.errors?.['pattern']"
-              >Username must be 3-20 characters and can only contain letters,
-              numbers and underscores.</span
-            >
-          </div>
+          @if (usernameInput.invalid &&
+            (usernameInput.dirty || usernameInput.touched)) {
+              <div
+                class="error-message"
+              >
+                @if (usernameInput.errors?.['required']) {
+                  <span>Username is required.</span>
+                }
+                @if (usernameInput.errors?.['pattern']) {
+                  <span>Username must be 3-20 characters and can only contain letters,
+                    numbers and underscores.</span>
+                }
+              </div>
+            }
         </div>
         <div class="form-group">
           <label for="password">Password</label>
@@ -51,20 +50,19 @@ import { Router } from '@angular/router';
             required
             pattern="^.{6,}$"
           />
-          <div
-            *ngIf="
-              passwordInput.invalid &&
-              (passwordInput.dirty || passwordInput.touched)
-            "
-            class="error-message"
-          >
-            <span *ngIf="passwordInput.errors?.['required']"
-              >Password is required.</span
-            >
-            <span *ngIf="passwordInput.errors?.['pattern']"
-              >Password must be at least 6 characters long.</span
-            >
-          </div>
+          @if (passwordInput.invalid &&
+            (passwordInput.dirty || passwordInput.touched)) {
+              <div
+                class="error-message"
+              >
+                @if (passwordInput.errors?.['required']) {
+                  <span>Password is required.</span>
+                }
+                @if (passwordInput.errors?.['pattern']) {
+                  <span>Password must be at least 6 characters long.</span>
+                }
+              </div>
+            }
         </div>
         <button type="submit" [disabled]="loginForm.invalid">Login</button>
       </form>
