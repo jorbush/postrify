@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 interface RegisterResponse {
@@ -21,10 +21,17 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(username: string, password: string): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/signin`, {
-      username,
-      password,
-    });
+    return this.http
+      .post<LoginResponse>(`${this.apiUrl}/signin`, {
+        username,
+        password,
+      })
+      .pipe(
+        tap((response) => {
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('username', response.username);
+        }),
+      );
   }
 
   register(
@@ -41,9 +48,18 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('token');
+    localStorage.removeItem('username');
   }
 
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+
+  getUsername(): string | null {
+    return localStorage.getItem('username');
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.getToken();
   }
 }
