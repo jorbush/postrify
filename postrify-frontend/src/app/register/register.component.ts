@@ -91,7 +91,7 @@ import { CommonModule } from '@angular/common';
     }
 
     input {
-      width: 100%;
+      width: 95%;
       padding: 0.5rem;
       border: 1px solid var(--border-color);
       border-radius: 4px;
