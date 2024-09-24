@@ -172,6 +172,14 @@ import { AuthService } from '../services/auth.service';
         font-size: 1.5rem;
         cursor: pointer;
       }
+
+      @media (pointer: coarse) {
+        .auth-button:hover,
+        .logout-button:hover {
+          background-color: initial;
+          color: initial;
+        }
+      }
     `,
   ],
 })
