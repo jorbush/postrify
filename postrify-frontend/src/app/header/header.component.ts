@@ -175,6 +175,7 @@ import { AuthService } from '../services/auth.service';
 
       @media (pointer: coarse) {
         .auth-button:hover,
+        .toggle-button:hover,
         .logout-button:hover {
           background-color: initial;
           color: initial;
