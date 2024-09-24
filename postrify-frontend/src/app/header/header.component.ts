@@ -181,6 +181,16 @@ import { AuthService } from '../services/auth.service';
           color: initial;
         }
       }
+
+      @media (max-width: 500px) {
+        header {
+          padding: 0.5rem 0.25rem;
+        }
+
+        .username {
+          margin-right: 0rem;
+        }
+      }
     `,
   ],
 })
