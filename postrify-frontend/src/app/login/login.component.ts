@@ -104,6 +104,7 @@ import { Router } from '@angular/router';
         border: 1px solid var(--border-color);
         border-radius: 4px;
         background-color: var(--input-bg);
+        font-size: 16px;
         color: var(--text-color);
       }
 
@@ -116,6 +117,7 @@ import { Router } from '@angular/router';
         border-radius: 4px;
         cursor: pointer;
         transition: background-color 0.3s ease;
+        font-size: 16px;
       }
 
       button:hover {

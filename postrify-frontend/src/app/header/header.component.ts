@@ -172,6 +172,25 @@ import { AuthService } from '../services/auth.service';
         font-size: 1.5rem;
         cursor: pointer;
       }
+
+      @media (pointer: coarse) {
+        .auth-button:hover,
+        .toggle-button:hover,
+        .logout-button:hover {
+          background-color: initial;
+          color: initial;
+        }
+      }
+
+      @media (max-width: 500px) {
+        header {
+          padding: 0.5rem 0.25rem;
+        }
+
+        .username {
+          margin-right: 0rem;
+        }
+      }
     `,
   ],
 })
