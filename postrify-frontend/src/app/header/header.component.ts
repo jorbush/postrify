@@ -178,7 +178,7 @@ import { AuthService } from '../services/auth.service';
         .toggle-button:hover,
         .logout-button:hover {
           background-color: initial;
-          color: initial;
+          color: var(--header-text);
         }
       }
 
