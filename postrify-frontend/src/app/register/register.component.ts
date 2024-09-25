@@ -129,6 +129,7 @@ import { ToastService } from '../services/toast.service';
         background-color: var(--input-bg);
         font-size: 16px;
         color: var(--text-color);
+        font-family: 'Quicksand', sans-serif;
       }
 
       button {
@@ -141,6 +142,7 @@ import { ToastService } from '../services/toast.service';
         cursor: pointer;
         transition: background-color 0.3s ease;
         font-size: 16px;
+        font-family: 'Quicksand', sans-serif;
       }
 
       button:hover {
