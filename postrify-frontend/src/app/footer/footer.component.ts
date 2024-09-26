@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import packageJson from '../../../package.json';
 
 @Component({
@@ -165,9 +165,7 @@ import packageJson from '../../../package.json';
     `,
   ],
 })
-export class FooterComponent implements OnInit {
+export class FooterComponent {
   version: string = packageJson.version;
   currentDate: string = new Date().toLocaleDateString();
-
-  ngOnInit(): void {}
 }
