@@ -11,6 +11,8 @@
   --disabled-color: #6c757d;
   --error-color: #dc3545;
   --text-color: #333333;
+  --footer-bg: #f0f0f0;
+  --footer-text: #333333;
 }
 
 @font-face {
@@ -69,4 +71,6 @@ body.dark-mode {
   --disabled-color: #6c757d;
   --error-color: #f06565;
   --text-color: #ffffff;
+  --footer-bg: #1a1a1a;
+  --footer-text: #ffffff;
 }

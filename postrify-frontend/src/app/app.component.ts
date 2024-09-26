@@ -10,15 +10,29 @@ import { FooterComponent } from './footer/footer.component';
   standalone: true,
   imports: [RouterOutlet, HeaderComponent, ToastComponent, FooterComponent],
   template: `
-    <app-header></app-header>
-    <router-outlet></router-outlet>
-    <app-toast></app-toast>
-    <app-footer></app-footer>
+    <div class="app-container">
+      <app-header></app-header>
+      <main class="content">
+        <router-outlet></router-outlet>
+        <app-toast></app-toast>
+      </main>
+      <app-footer></app-footer>
+    </div>
   `,
   styles: [
     `
-      :host {
-        display: block;
+      .app-container {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      .content {
+        flex: 1;
+      }
+
+      app-footer {
+        margin-top: auto;
       }
     `,
   ],
