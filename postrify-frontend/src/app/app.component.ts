@@ -3,20 +3,36 @@ import { RouterOutlet } from '@angular/router';
 import { ApiService } from './services/api.service';
 import { HeaderComponent } from './header/header.component';
 import { ToastComponent } from './toast/toast.component';
+import { FooterComponent } from './footer/footer.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, ToastComponent],
+  imports: [RouterOutlet, HeaderComponent, ToastComponent, FooterComponent],
   template: `
-    <app-header></app-header>
-    <router-outlet></router-outlet>
-    <app-toast></app-toast>
+    <div class="app-container">
+      <app-header></app-header>
+      <main class="content">
+        <router-outlet></router-outlet>
+        <app-toast></app-toast>
+      </main>
+      <app-footer></app-footer>
+    </div>
   `,
   styles: [
     `
-      :host {
-        display: block;
+      .app-container {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      .content {
+        flex: 1;
+      }
+
+      app-footer {
+        margin-top: auto;
       }
     `,
   ],
