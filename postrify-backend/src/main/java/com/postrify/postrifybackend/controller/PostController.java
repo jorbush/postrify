@@ -6,72 +6,71 @@ import com.postrify.postrifybackend.model.Post;
 import com.postrify.postrifybackend.model.User;
 import com.postrify.postrifybackend.service.PostService;
 import com.postrify.postrifybackend.service.UserService;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/api/posts")
 public class PostController {
 
-    @Autowired
-    private PostService postService;
+  @Autowired private PostService postService;
 
-    @Autowired
-    private UserService userService;
+  @Autowired private UserService userService;
 
-    @GetMapping
-    public List<PostResponseDTO> getAllPosts() {
-        return postService.getAllPosts();
-    }
+  @GetMapping
+  public List<PostResponseDTO> getAllPosts() {
+    return postService.getAllPosts();
+  }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<PostResponseDTO> getPostById(@PathVariable Long id) {
-        Optional<PostResponseDTO> post = postService.getPostById(id);
-        return post.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-    }
+  @GetMapping("/{id}")
+  public ResponseEntity<PostResponseDTO> getPostById(@PathVariable Long id) {
+    Optional<PostResponseDTO> post = postService.getPostById(id);
+    return post.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+  }
 
-    @GetMapping("/user/{userId}")
-    public List<PostResponseDTO> getPostsByUser(@PathVariable Long userId) {
-        return postService.getPostsByUser(userId);
-    }
+  @GetMapping("/user/{userId}")
+  public List<PostResponseDTO> getPostsByUser(@PathVariable Long userId) {
+    return postService.getPostsByUser(userId);
+  }
 
-    @PostMapping
-    public ResponseEntity<PostResponseDTO> createPost(@RequestBody PostRequest postRequest, Authentication authentication) {
-        String username = authentication.getName();
-        User user = userService.findByUsername(username);
+  @PostMapping
+  public ResponseEntity<PostResponseDTO> createPost(
+      @RequestBody PostRequest postRequest, Authentication authentication) {
+    String username = authentication.getName();
+    User user = userService.findByUsername(username);
 
-        Post post = new Post();
-        post.setTitle(postRequest.getTitle());
-        post.setContent(postRequest.getContent());
-        post.setUser(user);
+    Post post = new Post();
+    post.setTitle(postRequest.getTitle());
+    post.setContent(postRequest.getContent());
+    post.setUser(user);
 
-        PostResponseDTO createdPost = postService.createPost(post);
-        return ResponseEntity.ok(createdPost);
-    }
+    PostResponseDTO createdPost = postService.createPost(post);
+    return ResponseEntity.ok(createdPost);
+  }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<PostResponseDTO> updatePost(@PathVariable Long id, @RequestBody PostRequest postRequest, Authentication authentication) {
-        String username = authentication.getName();
-        User user = userService.findByUsername(username);
+  @PutMapping("/{id}")
+  public ResponseEntity<PostResponseDTO> updatePost(
+      @PathVariable Long id, @RequestBody PostRequest postRequest, Authentication authentication) {
+    String username = authentication.getName();
+    User user = userService.findByUsername(username);
 
-        Post postDetails = new Post();
-        postDetails.setTitle(postRequest.getTitle());
-        postDetails.setContent(postRequest.getContent());
+    Post postDetails = new Post();
+    postDetails.setTitle(postRequest.getTitle());
+    postDetails.setContent(postRequest.getContent());
 
-        PostResponseDTO updatedPost = postService.updatePost(id, postDetails, user);
-        return ResponseEntity.ok(updatedPost);
-    }
+    PostResponseDTO updatedPost = postService.updatePost(id, postDetails, user);
+    return ResponseEntity.ok(updatedPost);
+  }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePost(@PathVariable Long id, Authentication authentication) {
-        String username = authentication.getName();
-        User user = userService.findByUsername(username);
-        postService.deletePost(id, user);
-        return ResponseEntity.noContent().build();
-    }
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> deletePost(@PathVariable Long id, Authentication authentication) {
+    String username = authentication.getName();
+    User user = userService.findByUsername(username);
+    postService.deletePost(id, user);
+    return ResponseEntity.noContent().build();
+  }
 }
