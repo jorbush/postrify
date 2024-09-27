@@ -1,6 +1,9 @@
 package com.postrify.postrifybackend.model;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -20,6 +23,7 @@ public class User {
   private String email;
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  @JsonIgnore
   private List<Post> posts;
 
   public User() {}
