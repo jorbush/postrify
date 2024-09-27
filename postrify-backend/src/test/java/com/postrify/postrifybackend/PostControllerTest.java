@@ -43,7 +43,6 @@ class PostControllerTest {
 
   @Test
   void getAllPosts_Success() {
-    // Arrange
     UserDTO userDTO = new UserDTO(1L, "jordi", "jordi@mail.com");
     PostResponseDTO post1 =
         new PostResponseDTO(
@@ -55,10 +54,8 @@ class PostControllerTest {
 
     when(postService.getAllPosts()).thenReturn(posts);
 
-    // Act
     List<PostResponseDTO> result = postController.getAllPosts();
 
-    // Assert
     assertNotNull(result);
     assertEquals(2, result.size());
     verify(postService, times(1)).getAllPosts();
@@ -66,7 +63,6 @@ class PostControllerTest {
 
   @Test
   void getPostById_Found() {
-    // Arrange
     Long postId = 1L;
     UserDTO userDTO = new UserDTO(1L, "jordi", "jordi@mail.com");
     PostResponseDTO post =
@@ -75,10 +71,8 @@ class PostControllerTest {
 
     when(postService.getPostById(postId)).thenReturn(Optional.of(post));
 
-    // Act
     ResponseEntity<PostResponseDTO> response = postController.getPostById(postId);
 
-    // Assert
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertTrue(response.getBody() instanceof PostResponseDTO);
     assertEquals(postId, response.getBody().getId());
@@ -87,14 +81,11 @@ class PostControllerTest {
 
   @Test
   void getPostById_NotFound() {
-    // Arrange
     Long postId = 1L;
     when(postService.getPostById(postId)).thenReturn(Optional.empty());
 
-    // Act
     ResponseEntity<PostResponseDTO> response = postController.getPostById(postId);
 
-    // Assert
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     assertNull(response.getBody());
     verify(postService, times(1)).getPostById(postId);
@@ -102,7 +93,6 @@ class PostControllerTest {
 
   @Test
   void getPostsByUser_Success() {
-    // Arrange
     Long userId = 1L;
     UserDTO userDTO = new UserDTO(userId, "jordi", "jordi@mail.com");
     PostResponseDTO post1 =
@@ -115,10 +105,8 @@ class PostControllerTest {
 
     when(postService.getPostsByUser(userId)).thenReturn(posts);
 
-    // Act
     List<PostResponseDTO> result = postController.getPostsByUser(userId);
 
-    // Assert
     assertNotNull(result);
     assertEquals(2, result.size());
     verify(postService, times(1)).getPostsByUser(userId);
@@ -126,7 +114,6 @@ class PostControllerTest {
 
   @Test
   void createPost_Success() {
-    // Arrange
     PostRequest postRequest = new PostRequest();
     postRequest.setTitle("New Post");
     postRequest.setContent("Content of the new post");
@@ -246,7 +233,6 @@ class PostControllerTest {
 
   @Test
   void updatePost_Forbidden() {
-    // Arrange
     Long postId = 1L;
     PostRequest postRequest = new PostRequest();
     postRequest.setTitle("Updated Post");
@@ -260,7 +246,6 @@ class PostControllerTest {
     when(postService.updatePost(eq(postId), any(Post.class), eq(user)))
         .thenThrow(new RuntimeException("You do not have permission to update this post"));
 
-    // Act & Assert
     RuntimeException exception =
         assertThrows(
             RuntimeException.class,

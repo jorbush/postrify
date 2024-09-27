@@ -1,4 +1,3 @@
-// src/main/java/com/postrify/postrifybackend/dto/PostResponseDTO.java
 package com.postrify.postrifybackend.dto;
 
 import java.time.LocalDateTime;
