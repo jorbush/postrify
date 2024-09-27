@@ -1,57 +1,92 @@
 package com.postrify.postrifybackend.service;
 
+import com.postrify.postrifybackend.dto.PostResponseDTO;
+import com.postrify.postrifybackend.dto.UserDTO;
 import com.postrify.postrifybackend.model.Post;
 import com.postrify.postrifybackend.model.User;
 import com.postrify.postrifybackend.repository.PostRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
 
-    private final PostRepository postRepository;
-    private final UserService userService;
+    @Autowired
+    private PostRepository postRepository;
 
-    public PostService(PostRepository postRepository, UserService userService) {
-        this.postRepository = postRepository;
-        this.userService = userService;
+    @Autowired
+    private UserService userService;
+
+    @Transactional(readOnly = true)
+    public List<PostResponseDTO> getAllPosts() {
+        return postRepository.findAll().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 
-    public List<Post> getAllPosts() {
-        return postRepository.findAll();
+    @Transactional(readOnly = true)
+    public Optional<PostResponseDTO> getPostById(Long id) {
+        return postRepository.findById(id)
+                .map(this::convertToDTO);
     }
 
-    public Optional<Post> getPostById(Long id) {
-        return postRepository.findById(id);
+    @Transactional(readOnly = true)
+    public List<PostResponseDTO> getPostsByUser(Long userId) {
+        return postRepository.findByUserId(userId).stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 
-    public List<Post> getPostsByUser(Long userId) {
-        return postRepository.findByUserId(userId);
+    @Transactional
+    public PostResponseDTO createPost(Post post) {
+        Post savedPost = postRepository.save(post);
+        return convertToDTO(savedPost);
     }
 
-    public Post createPost(Post post) {
-        return postRepository.save(post);
-    }
-
-    public Post updatePost(Long id, Post postDetails, User currentUser) {
+    @Transactional
+    public PostResponseDTO updatePost(Long id, Post postDetails, User currentUser) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Post not found"));
+
         if (!post.getUser().getId().equals(currentUser.getId())) {
             throw new RuntimeException("You don't have permission to update this post");
         }
+
         post.setTitle(postDetails.getTitle());
         post.setContent(postDetails.getContent());
-        return postRepository.save(post);
+        Post updatedPost = postRepository.save(post);
+
+        return convertToDTO(updatedPost);
     }
 
+    @Transactional
     public void deletePost(Long id, User currentUser) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Post not found"));
+
         if (!post.getUser().getId().equals(currentUser.getId())) {
             throw new RuntimeException("You don't have permission to delete this post");
         }
+
         postRepository.delete(post);
+    }
+
+    private PostResponseDTO convertToDTO(Post post) {
+        User user = post.getUser();
+        UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getEmail());
+
+        return new PostResponseDTO(
+                post.getId(),
+                post.getTitle(),
+                post.getContent(),
+                userDTO,
+                post.getCreatedAt(),
+                post.getUpdatedAt()
+        );
     }
 }

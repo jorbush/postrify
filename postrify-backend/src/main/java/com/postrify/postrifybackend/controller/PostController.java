@@ -2,7 +2,6 @@ package com.postrify.postrifybackend.controller;
 
 import com.postrify.postrifybackend.dto.PostRequest;
 import com.postrify.postrifybackend.dto.PostResponseDTO;
-import com.postrify.postrifybackend.dto.UserDTO;
 import com.postrify.postrifybackend.model.Post;
 import com.postrify.postrifybackend.model.User;
 import com.postrify.postrifybackend.service.PostService;
@@ -13,7 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -27,32 +26,32 @@ public class PostController {
 
     @GetMapping
     public List<PostResponseDTO> getAllPosts() {
-        return postService.getAllPosts().stream().map(this::convertToDTO).collect(Collectors.toList());
+        return postService.getAllPosts();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PostResponseDTO> getPostById(@PathVariable Long id) {
-        return postService.getPostById(id)
-                .map(post -> ResponseEntity.ok().body(convertToDTO(post)))
-                .orElse(ResponseEntity.notFound().build());
+        Optional<PostResponseDTO> post = postService.getPostById(id);
+        return post.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/user/{userId}")
     public List<PostResponseDTO> getPostsByUser(@PathVariable Long userId) {
-        return postService.getPostsByUser(userId).stream().map(this::convertToDTO).collect(Collectors.toList());
+        return postService.getPostsByUser(userId);
     }
 
     @PostMapping
     public ResponseEntity<PostResponseDTO> createPost(@RequestBody PostRequest postRequest, Authentication authentication) {
         String username = authentication.getName();
         User user = userService.findByUsername(username);
+
         Post post = new Post();
         post.setTitle(postRequest.getTitle());
         post.setContent(postRequest.getContent());
         post.setUser(user);
 
-        Post createdPost = postService.createPost(post);
-        return ResponseEntity.ok(convertToDTO(createdPost));
+        PostResponseDTO createdPost = postService.createPost(post);
+        return ResponseEntity.ok(createdPost);
     }
 
     @PutMapping("/{id}")
@@ -64,8 +63,8 @@ public class PostController {
         postDetails.setTitle(postRequest.getTitle());
         postDetails.setContent(postRequest.getContent());
 
-        Post updatedPost = postService.updatePost(id, postDetails, user);
-        return ResponseEntity.ok(convertToDTO(updatedPost));
+        PostResponseDTO updatedPost = postService.updatePost(id, postDetails, user);
+        return ResponseEntity.ok(updatedPost);
     }
 
     @DeleteMapping("/{id}")
@@ -74,19 +73,5 @@ public class PostController {
         User user = userService.findByUsername(username);
         postService.deletePost(id, user);
         return ResponseEntity.noContent().build();
-    }
-
-    private PostResponseDTO convertToDTO(Post post) {
-        User user = post.getUser();
-        UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getEmail());
-
-        return new PostResponseDTO(
-                post.getId(),
-                post.getTitle(),
-                post.getContent(),
-                userDTO,
-                post.getCreatedAt(),
-                post.getUpdatedAt()
-        );
     }
 }
