@@ -1,4 +1,4 @@
-package com.postrify.postrifybackend.model;
+package com.postrify.postrifybackend.dto;
 
 import javax.validation.constraints.NotBlank;
 

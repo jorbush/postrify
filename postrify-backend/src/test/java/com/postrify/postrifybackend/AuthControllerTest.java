@@ -5,6 +5,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import com.postrify.postrifybackend.controller.AuthController;
+import com.postrify.postrifybackend.dto.JwtResponse;
+import com.postrify.postrifybackend.dto.LoginRequest;
+import com.postrify.postrifybackend.dto.MessageResponse;
+import com.postrify.postrifybackend.dto.SignUpRequest;
 import com.postrify.postrifybackend.model.*;
 import com.postrify.postrifybackend.security.JwtTokenProvider;
 import com.postrify.postrifybackend.service.UserService;
