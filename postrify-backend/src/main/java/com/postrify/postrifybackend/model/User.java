@@ -1,5 +1,6 @@
 package com.postrify.postrifybackend.model;
 
+import java.util.List;
 import jakarta.persistence.*;
 
 @Entity
@@ -18,12 +19,19 @@ public class User {
   @Column(nullable = false, unique = true)
   private String email;
 
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Post> posts;
+
   public User() {}
 
   public User(final String username, final String email, final String password) {
     this.username = username;
     this.email = email;
     this.password = password;
+  }
+
+  public Long getId() {
+    return id;
   }
 
   public String getUsername() {
@@ -40,5 +48,13 @@ public class User {
 
   public String getEmail() {
     return email;
+  }
+
+  public List<Post> getPosts() {
+    return posts;
+  }
+
+  public void setPosts(List<Post> posts) {
+    this.posts = posts;
   }
 }
