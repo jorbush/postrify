@@ -5,13 +5,12 @@
   --body-text: #333333;
   --card-bg: #ffffff;
   --input-bg: #ffffff;
-  --border-color: #cccccc;
   --primary-color: #8F93F5;
   --primary-color-hover: #AEB2F7;
   --disabled-color: #6c757d;
   --error-color: #dc3545;
   --text-color: #333333;
-  --footer-bg: #f0f0f0;xw
+  --footer-bg: #f0f0f0;
   --footer-text: #333333;
   --border-color: #dddddd;
   --secondary-text-color: #555;
@@ -67,7 +66,6 @@ body.dark-mode {
   --body-text: #ffffff;
   --card-bg: #2c2c2c;
   --input-bg: #3c3c3c;
-  --border-color: #555555;
   --primary-color: #8F93F5;
   --primary-color-hover: #AEB2F7;
   --disabled-color: #6c757d;
