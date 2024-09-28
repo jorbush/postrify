@@ -1,9 +1,9 @@
 package com.postrify.postrifybackend.controller;
 
-import com.postrify.postrifybackend.model.JwtResponse;
-import com.postrify.postrifybackend.model.LoginRequest;
-import com.postrify.postrifybackend.model.MessageResponse;
-import com.postrify.postrifybackend.model.SignUpRequest;
+import com.postrify.postrifybackend.dto.JwtResponse;
+import com.postrify.postrifybackend.dto.LoginRequest;
+import com.postrify.postrifybackend.dto.MessageResponse;
+import com.postrify.postrifybackend.dto.SignUpRequest;
 import com.postrify.postrifybackend.model.User;
 import com.postrify.postrifybackend.security.JwtTokenProvider;
 import com.postrify.postrifybackend.service.UserService;

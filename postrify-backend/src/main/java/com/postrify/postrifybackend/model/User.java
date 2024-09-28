@@ -1,6 +1,8 @@
 package com.postrify.postrifybackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -18,12 +20,20 @@ public class User {
   @Column(nullable = false, unique = true)
   private String email;
 
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  @JsonIgnore
+  private List<Post> posts;
+
   public User() {}
 
   public User(final String username, final String email, final String password) {
     this.username = username;
     this.email = email;
     this.password = password;
+  }
+
+  public Long getId() {
+    return id;
   }
 
   public String getUsername() {
@@ -40,5 +50,13 @@ public class User {
 
   public String getEmail() {
     return email;
+  }
+
+  public List<Post> getPosts() {
+    return posts;
+  }
+
+  public void setPosts(final List<Post> posts) {
+    this.posts = posts;
   }
 }
