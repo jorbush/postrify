@@ -6,12 +6,12 @@ import { PostResponseDTO } from '../models/post-response.model';
 import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PostService {
-  private apiUrl = environment.apiUrl + '/api/auth';
+  private apiUrl = environment.apiUrl + '/api/posts';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getAllPosts(): Observable<PostResponseDTO[]> {
     return this.http.get<PostResponseDTO[]>(this.apiUrl);
@@ -32,7 +32,9 @@ export class PostService {
 
   updatePost(id: number, post: Post): Observable<PostResponseDTO> {
     const headers = this.getAuthHeaders();
-    return this.http.put<PostResponseDTO>(`${this.apiUrl}/${id}`, post, { headers });
+    return this.http.put<PostResponseDTO>(`${this.apiUrl}/${id}`, post, {
+      headers,
+    });
   }
 
   deletePost(id: number): Observable<void> {
@@ -44,7 +46,7 @@ export class PostService {
     const token = localStorage.getItem('token');
     return new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     });
   }
 }

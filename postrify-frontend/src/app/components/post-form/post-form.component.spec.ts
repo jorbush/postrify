@@ -8,9 +8,8 @@ describe('PostFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PostFormComponent]
-    })
-    .compileComponents();
+      imports: [PostFormComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PostFormComponent);
     component = fixture.componentInstance;

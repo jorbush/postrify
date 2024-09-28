@@ -4,13 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-post-detail',
   standalone: true,
   imports: [],
-  template: `
-    <p>
-      post-detail works!
-    </p>
-  `,
-  styles: ``
+  template: ` <p>post-detail works!</p> `,
+  styles: ``,
 })
-export class PostDetailComponent {
-
-}
+export class PostDetailComponent {}

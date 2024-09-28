@@ -4,13 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-post-form',
   standalone: true,
   imports: [],
-  template: `
-    <p>
-      post-form works!
-    </p>
-  `,
-  styles: ``
+  template: ` <p>post-form works!</p> `,
+  styles: ``,
 })
-export class PostFormComponent {
-
-}
+export class PostFormComponent {}
