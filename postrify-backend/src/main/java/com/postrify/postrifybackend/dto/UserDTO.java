@@ -5,7 +5,7 @@ public class UserDTO {
   private String username;
   private String email;
 
-  public UserDTO(Long id, String username, String email) {
+  public UserDTO(final Long id, final String username, final String email) {
     this.id = id;
     this.username = username;
     this.email = email;
@@ -23,15 +23,15 @@ public class UserDTO {
     return email;
   }
 
-  public void setId(Long id) {
+  public void setId(final Long id) {
     this.id = id;
   }
 
-  public void setUsername(String username) {
+  public void setUsername(final String username) {
     this.username = username;
   }
 
-  public void setEmail(String email) {
+  public void setEmail(final String email) {
     this.email = email;
   }
 }

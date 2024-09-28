@@ -56,7 +56,7 @@ public class User {
     return posts;
   }
 
-  public void setPosts(List<Post> posts) {
+  public void setPosts(final List<Post> posts) {
     this.posts = posts;
   }
 }

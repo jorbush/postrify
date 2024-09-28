@@ -25,25 +25,25 @@ public class PostService {
   }
 
   @Transactional(readOnly = true)
-  public Optional<PostResponseDTO> getPostById(Long id) {
+  public Optional<PostResponseDTO> getPostById(final Long id) {
     return postRepository.findById(id).map(this::convertToDTO);
   }
 
   @Transactional(readOnly = true)
-  public List<PostResponseDTO> getPostsByUser(Long userId) {
+  public List<PostResponseDTO> getPostsByUser(final Long userId) {
     return postRepository.findByUserId(userId).stream()
         .map(this::convertToDTO)
         .collect(Collectors.toList());
   }
 
   @Transactional
-  public PostResponseDTO createPost(Post post) {
+  public PostResponseDTO createPost(final Post post) {
     Post savedPost = postRepository.save(post);
     return convertToDTO(savedPost);
   }
 
   @Transactional
-  public PostResponseDTO updatePost(Long id, Post postDetails, User currentUser) {
+  public PostResponseDTO updatePost(final Long id, final Post postDetails, final User currentUser) {
     Post post =
         postRepository.findById(id).orElseThrow(() -> new RuntimeException("Post not found"));
 
@@ -59,7 +59,7 @@ public class PostService {
   }
 
   @Transactional
-  public void deletePost(Long id, User currentUser) {
+  public void deletePost(final Long id, final User currentUser) {
     Post post =
         postRepository.findById(id).orElseThrow(() -> new RuntimeException("Post not found"));
 
@@ -70,7 +70,7 @@ public class PostService {
     postRepository.delete(post);
   }
 
-  private PostResponseDTO convertToDTO(Post post) {
+  private PostResponseDTO convertToDTO(final Post post) {
     User user = post.getUser();
     UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getEmail());
 

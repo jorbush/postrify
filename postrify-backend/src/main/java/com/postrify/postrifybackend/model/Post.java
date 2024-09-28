@@ -31,7 +31,7 @@ public class Post {
 
   public Post() {}
 
-  public Post(String title, String content, User user) {
+  public Post(final String title, final String content, final User user) {
     this.title = title;
     this.content = content;
     this.user = user;
@@ -61,15 +61,15 @@ public class Post {
     return updatedAt;
   }
 
-  public void setTitle(String title) {
+  public void setTitle(final String title) {
     this.title = title;
   }
 
-  public void setContent(String content) {
+  public void setContent(final String content) {
     this.content = content;
   }
 
-  public void setUser(User user) {
+  public void setUser(final User user) {
     this.user = user;
   }
 

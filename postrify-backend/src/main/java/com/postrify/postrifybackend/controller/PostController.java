@@ -27,19 +27,19 @@ public class PostController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<PostResponseDTO> getPostById(@PathVariable Long id) {
+  public ResponseEntity<PostResponseDTO> getPostById(@PathVariable final Long id) {
     Optional<PostResponseDTO> post = postService.getPostById(id);
     return post.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
   }
 
   @GetMapping("/user/{userId}")
-  public List<PostResponseDTO> getPostsByUser(@PathVariable Long userId) {
+  public List<PostResponseDTO> getPostsByUser(@PathVariable final Long userId) {
     return postService.getPostsByUser(userId);
   }
 
   @PostMapping
   public ResponseEntity<PostResponseDTO> createPost(
-      @RequestBody PostRequest postRequest, Authentication authentication) {
+      @RequestBody final PostRequest postRequest, final Authentication authentication) {
     String username = authentication.getName();
     User user = userService.findByUsername(username);
 
@@ -54,7 +54,9 @@ public class PostController {
 
   @PutMapping("/{id}")
   public ResponseEntity<PostResponseDTO> updatePost(
-      @PathVariable Long id, @RequestBody PostRequest postRequest, Authentication authentication) {
+      @PathVariable final Long id,
+      @RequestBody final PostRequest postRequest,
+      final Authentication authentication) {
     String username = authentication.getName();
     User user = userService.findByUsername(username);
 
@@ -67,7 +69,8 @@ public class PostController {
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deletePost(@PathVariable Long id, Authentication authentication) {
+  public ResponseEntity<Void> deletePost(
+      @PathVariable final Long id, final Authentication authentication) {
     String username = authentication.getName();
     User user = userService.findByUsername(username);
     postService.deletePost(id, user);

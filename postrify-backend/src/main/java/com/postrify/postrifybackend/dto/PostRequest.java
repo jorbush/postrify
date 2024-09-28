@@ -8,7 +8,7 @@ public class PostRequest {
     return title;
   }
 
-  public void setTitle(String title) {
+  public void setTitle(final String title) {
     this.title = title;
   }
 
@@ -16,7 +16,7 @@ public class PostRequest {
     return content;
   }
 
-  public void setContent(String content) {
+  public void setContent(final String content) {
     this.content = content;
   }
 }
