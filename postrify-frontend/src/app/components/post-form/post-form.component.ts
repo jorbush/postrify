@@ -22,7 +22,25 @@ import { ToastService } from '../../services/toast.service';
             [(ngModel)]="post.title"
             required
             minlength="3"
+            maxlength="30"
+            #titleInput="ngModel"
           />
+          <div class="character-count">
+            {{ post.title.length }}/30
+          </div>
+          @if (
+            titleInput.invalid &&
+            (titleInput.dirty || titleInput.touched)
+          ) {
+            <div class="error-message">
+              @if (titleInput.errors?.['required']) {
+                <div>Title is required.</div>
+              }
+              @if (titleInput.errors?.['minlength']) {
+                <div>Title must be at least 3 characters long.</div>
+              }
+            </div>
+          }
         </div>
         <div class="form-group">
           <label for="content">Content:</label>
@@ -32,7 +50,25 @@ import { ToastService } from '../../services/toast.service';
             [(ngModel)]="post.content"
             required
             minlength="10"
+            maxlength="1000"
+            #contentInput="ngModel"
           ></textarea>
+          <div class="character-count">
+            {{ post.content.length }}/1000
+          </div>
+          @if (
+            contentInput.invalid &&
+            (contentInput.dirty || contentInput.touched)
+          ) {
+            <div class="error-message">
+              @if (contentInput.errors?.['required']) {
+                <div>Content is required.</div>
+              }
+              @if (contentInput.errors?.['minlength']) {
+                <div>Content must be at least 10 characters long.</div>
+              }
+            </div>
+          }
         </div>
         <button type="submit" [disabled]="!postForm.form.valid">Submit</button>
       </form>
@@ -55,6 +91,7 @@ import { ToastService } from '../../services/toast.service';
 
     .form-group {
       margin-bottom: 15px;
+      position: relative;
     }
 
     .form-group label {
@@ -77,6 +114,20 @@ import { ToastService } from '../../services/toast.service';
 
     textarea {
       height: 30vh;
+    }
+
+    .character-count {
+      position: absolute;
+      right: 10px;
+      bottom: 5px;
+      font-size: 0.8em;
+      color: var(--secondary-text-color);
+    }
+
+    .error-message {
+      color: var(--error-color);
+      font-size: 0.9em;
+      margin-top: 5px;
     }
 
     button[type='submit'] {
