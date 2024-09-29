@@ -13,23 +13,73 @@ import { CommonModule } from '@angular/common';
     <div class="post-detail-container">
       @if (post) {
         <article class="post-content">
-          <button class="btn btn-back" (click)="goBack()">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-left"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M15 6l-6 6l6 6" />
-            </svg>
-          </button>
+          <div class="post-buttons">
+            <button class="btn btn-back" (click)="goBack()">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-left"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M15 6l-6 6l6 6" />
+              </svg>
+            </button>
+            @if (isLogged && post.user.username === username) {
+              <div class="post-actions">
+                <button class="btn btn-edit" (click)="editPost()">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="icon icon-tabler icons-tabler-outline icon-tabler-edit"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path
+                      d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"
+                    />
+                    <path
+                      d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"
+                    />
+                    <path d="M16 5l3 3" />
+                  </svg>
+                </button>
+                <button class="btn btn-delete" (click)="deletePost()">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="icon icon-tabler icons-tabler-outline icon-tabler-trash"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M4 7l16 0" />
+                    <path d="M10 11l0 6" />
+                    <path d="M14 11l0 6" />
+                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                  </svg>
+                </button>
+              </div>
+            }
+          </div>
           <div class="post-header">
             <h1 class="post-title">{{ post.title }}</h1>
           </div>
@@ -38,14 +88,6 @@ import { CommonModule } from '@angular/common';
             <span class="date">{{ post.createdAt | date: 'mediumDate' }}</span>
           </div>
           <p class="post-body">{{ post.content }}</p>
-          @if (isLogged && post.user.username === username) {
-            <div class="post-actions">
-              <button class="btn btn-edit" (click)="editPost()">Edit</button>
-              <button class="btn btn-delete" (click)="deletePost()">
-                Delete
-              </button>
-            </div>
-          }
         </article>
       } @else {
         <div class="loading">
@@ -71,20 +113,34 @@ import { CommonModule } from '@angular/common';
         position: relative;
       }
 
-      .btn-back {
-        position: absolute;
+      .post-buttons {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .post-actions {
+        display: flex;
+        justify-content: center;
+      }
+
+      .btn-back,
+      .btn-edit,
+      .btn-delete {
         top: 1rem;
         left: 1rem;
         background-color: transparent;
         color: var(--header-text);
-        border: 1px solid var(--header-text);
         padding: 0.5rem 1rem;
         cursor: pointer;
         transition: all 0.3s ease;
+        border: none;
       }
 
-      .btn-back:hover {
+      .btn-back:hover,
+      .btn-edit:hover,
+      .btn-delete:hover {
         color: var(--primary-color);
+        transform: scale(1.1);
       }
 
       .post-header {
@@ -96,8 +152,8 @@ import { CommonModule } from '@angular/common';
 
       .post-title {
         font-size: 2.5rem;
-        margin-top: 2rem;
-        margin-bottom: 1rem;
+        margin-top: 1rem;
+        margin-bottom: 2rem;
         color: var(--primary-color);
         text-align: center;
       }
@@ -114,40 +170,6 @@ import { CommonModule } from '@angular/common';
         font-size: 1.1rem;
         line-height: 1.6;
         color: var(--body-text-color);
-      }
-
-      .post-actions {
-        margin-top: 2rem;
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-      }
-
-      .btn {
-        padding: 0.5rem 1rem;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 1rem;
-        transition: background-color 0.3s ease;
-      }
-
-      .btn-edit {
-        background-color: #4caf50;
-        color: white;
-      }
-
-      .btn-edit:hover {
-        background-color: #45a049;
-      }
-
-      .btn-delete {
-        background-color: #f44336;
-        color: white;
-      }
-
-      .btn-delete:hover {
-        background-color: #da190b;
       }
 
       .loading {
@@ -173,6 +195,15 @@ import { CommonModule } from '@angular/common';
         }
         100% {
           transform: rotate(360deg);
+        }
+      }
+
+      @media (pointer: coarse) {
+        .btn-back,
+        .btn-edit,
+        .btn-delete {
+          background-color: initial;
+          color: var(--header-text);
         }
       }
     `,
