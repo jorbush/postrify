@@ -13,6 +13,9 @@ import { CommonModule } from '@angular/common';
     <div class="post-detail-container">
       @if (post) {
         <article class="post-content">
+          <button class="btn btn-back" (click)="goBack()">
+            <svg xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-left"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg>
+          </button>
           <div class="post-header">
             <h1 class="post-title">{{ post.title }}</h1>
           </div>
@@ -48,6 +51,23 @@ import { CommonModule } from '@angular/common';
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       padding: 2rem;
+      position: relative;
+    }
+
+    .btn-back {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background-color: transparent;
+      color: var(--header-text);
+      border: 1px solid var(--header-text);
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-back:hover {
+      color: var(--primary-color);
     }
 
     .post-header {
@@ -59,7 +79,7 @@ import { CommonModule } from '@angular/common';
 
     .post-title {
       font-size: 2.5rem;
-      margin-top: 0;
+      margin-top: 2rem;
       margin-bottom: 1rem;
       color: var(--primary-color);
       text-align: center;
@@ -180,5 +200,9 @@ export class PostDetailComponent implements OnInit {
         });
       }
     }
+  }
+
+  goBack(): void {
+    this.router.navigate(['/']);
   }
 }
