@@ -49,7 +49,7 @@ import { ToastService } from '../../services/toast.service';
             type="email"
             placeholder="Enter your email"
             required
-            pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$"
+            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$"
           />
           @if (emailInput.invalid && (emailInput.dirty || emailInput.touched)) {
             <div class="error-message">
@@ -217,7 +217,7 @@ export class RegisterComponent {
 
   isFormValid(): boolean {
     const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
-    const emailRegex = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const passwordRegex = /^.{6,}$/;
     return (
       usernameRegex.test(this.username) &&
