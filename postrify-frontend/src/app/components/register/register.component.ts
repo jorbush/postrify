@@ -1,26 +1,25 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ToastService } from '../services/toast.service';
-import { Router } from '@angular/router';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-register',
   standalone: true,
   imports: [FormsModule, RouterLink, CommonModule],
   template: `
     <div class="auth-container">
-      <h2>Login</h2>
-      <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <h2>Register</h2>
+      <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
         <div class="form-group">
           <label for="username">Username</label>
           <input
             [(ngModel)]="username"
             name="username"
             #usernameInput="ngModel"
-            placeholder="Enter your username"
+            placeholder="Choose a username"
             required
             pattern="^[a-zA-Z0-9_]{3,20}$"
           />
@@ -42,13 +41,35 @@ import { Router } from '@angular/router';
           }
         </div>
         <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            [(ngModel)]="email"
+            name="email"
+            #emailInput="ngModel"
+            type="email"
+            placeholder="Enter your email"
+            required
+            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$"
+          />
+          @if (emailInput.invalid && (emailInput.dirty || emailInput.touched)) {
+            <div class="error-message">
+              @if (emailInput.errors?.['required']) {
+                <span>Email is required.</span>
+              }
+              @if (emailInput.errors?.['pattern']) {
+                <span>Please enter a valid email address.</span>
+              }
+            </div>
+          }
+        </div>
+        <div class="form-group">
           <label for="password">Password</label>
           <input
             [(ngModel)]="password"
             name="password"
             #passwordInput="ngModel"
             type="password"
-            placeholder="Enter your password"
+            placeholder="Create a password"
             required
             pattern="^.{6,}$"
           />
@@ -66,9 +87,11 @@ import { Router } from '@angular/router';
             </div>
           }
         </div>
-        <button type="submit" [disabled]="loginForm.invalid">Login</button>
+        <button type="submit" [disabled]="registerForm.invalid">
+          Register
+        </button>
       </form>
-      <p>Don't have an account? <a routerLink="/register">Sign Up</a></p>
+      <p>Already have an account? <a routerLink="/login">Login</a></p>
     </div>
   `,
   styles: [
@@ -160,8 +183,9 @@ import { Router } from '@angular/router';
     `,
   ],
 })
-export class LoginComponent {
+export class RegisterComponent {
   username = '';
+  email = '';
   password = '';
 
   constructor(
@@ -172,25 +196,33 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.isFormValid()) {
-      this.authService.login(this.username, this.password).subscribe({
-        next: (data) => {
-          console.log(data);
-          this.toastService.show('Login successful!', 'success');
-          this.router.navigate(['/']);
-        },
-        error: (error) => {
-          console.error('Error logging in:', error);
-          this.toastService.show('Login failed. Please try again.', 'error');
-        },
-      });
+      this.authService
+        .register(this.username, this.email, this.password)
+        .subscribe({
+          next: (data) => {
+            console.log(data);
+            this.toastService.show('Registration successful!', 'success');
+            this.router.navigate(['/login']);
+          },
+          error: (error) => {
+            console.error('Error registering:', error);
+            this.toastService.show(
+              'Registration failed. Please try again.',
+              'error',
+            );
+          },
+        });
     }
   }
 
   isFormValid(): boolean {
     const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const passwordRegex = /^.{6,}$/;
     return (
-      usernameRegex.test(this.username) && passwordRegex.test(this.password)
+      usernameRegex.test(this.username) &&
+      emailRegex.test(this.email) &&
+      passwordRegex.test(this.password)
     );
   }
 }

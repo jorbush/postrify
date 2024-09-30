@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import packageJson from '../../../package.json';
+import packageJson from '../../../../package.json';
 
 @Component({
   selector: 'app-footer',
@@ -7,8 +7,13 @@ import packageJson from '../../../package.json';
   template: `
     <footer class="footer">
       <div class="version-date">
-        <span>Version: {{ version }}</span> -
-        <span>{{ currentDate }}</span>
+        <p>v{{ version }} &copy; {{ currentYear }} Postrify</p>
+        <p>
+          Licensed under
+          <a href="https://github.com/jorbush/postrify/blob/main/LICENSE"
+            >Apache 2.0</a
+          >
+        </p>
       </div>
       <div class="social-icons">
         <a href="mailto:jbonetv5@gmail.com" aria-label="Email">
@@ -162,10 +167,14 @@ import packageJson from '../../../package.json';
         transform: scale(1.2);
         stroke: var(--primary-color-hover);
       }
+
+      a {
+        text-decoration: none;
+      }
     `,
   ],
 })
 export class FooterComponent {
   version: string = packageJson.version;
-  currentDate: string = new Date().toLocaleDateString();
+  currentYear: string = new Date().getFullYear().toString();
 }
