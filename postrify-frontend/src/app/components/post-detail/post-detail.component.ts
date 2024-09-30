@@ -4,6 +4,7 @@ import { PostResponseDTO } from '../../models/post-response.model';
 import { AuthService } from '../../services/auth.service';
 import { PostService } from '../../services/post.service';
 import { CommonModule } from '@angular/common';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-post-detail',
@@ -219,6 +220,7 @@ export class PostDetailComponent implements OnInit {
     private postService: PostService,
     private router: Router,
     private authService: AuthService,
+    private toastService: ToastService,
   ) {}
 
   ngOnInit(): void {
@@ -249,7 +251,17 @@ export class PostDetailComponent implements OnInit {
             console.log('Post deleted successfully');
             this.router.navigate(['/']);
           },
-          error: (error) => console.error('Error deleting post', error),
+          error: (error) => {
+            console.error('Error deleting post', error);
+            this.toastService.show('Error deleting post', 'error');
+            if (error.status === 401) {
+              this.toastService.show(
+                'You need to be logged in to delete a post',
+                'error',
+              );
+              this.router.navigate(['/login']);
+            }
+          },
         });
       }
     }
