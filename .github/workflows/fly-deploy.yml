@@ -33,6 +33,7 @@ jobs:
           flyctl secrets set SPRING_DATASOURCE_URL="${{ secrets.SPRING_DATASOURCE_URL }}"
           flyctl secrets set SPRING_DATASOURCE_USERNAME="${{ secrets.SPRING_DATASOURCE_USERNAME }}"
           flyctl secrets set SPRING_DATASOURCE_PASSWORD="${{ secrets.SPRING_DATASOURCE_PASSWORD }}"
+          flyctl secrets set APP_JWTSECRET="${{ secrets.APP_JWTSECRET }}"
 
       - name: Deploy to Fly.io
         env:
