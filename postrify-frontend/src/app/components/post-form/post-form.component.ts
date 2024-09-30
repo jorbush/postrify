@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Post } from '../../models/post.model';
 import { Router } from '@angular/router';
 import { PostService } from '../../services/post.service';
@@ -24,6 +24,7 @@ import { ToastService } from '../../services/toast.service';
             minlength="3"
             maxlength="30"
             #titleInput="ngModel"
+            (ngModelChange)="saveFormState()"
           />
           <div class="character-count">{{ post.title.length }}/30</div>
           @if (titleInput.invalid && (titleInput.dirty || titleInput.touched)) {
@@ -47,6 +48,7 @@ import { ToastService } from '../../services/toast.service';
             minlength="10"
             maxlength="1000"
             #contentInput="ngModel"
+            (ngModelChange)="saveFormState()"
           ></textarea>
           <div class="character-count">{{ post.content.length }}/1000</div>
           @if (
@@ -143,7 +145,7 @@ import { ToastService } from '../../services/toast.service';
     }
   `,
 })
-export class PostFormComponent {
+export class PostFormComponent implements OnInit {
   post: Post = {
     title: '',
     content: '',
@@ -155,11 +157,32 @@ export class PostFormComponent {
     private router: Router,
   ) {}
 
+  ngOnInit(): void {
+    this.loadFormState();
+  }
+
+  saveFormState(): void {
+    localStorage.setItem('postFormData', JSON.stringify(this.post));
+  }
+
+  loadFormState(): void {
+    const savedData = localStorage.getItem('postFormData');
+    if (savedData) {
+      this.post = JSON.parse(savedData);
+    }
+  }
+
+  clearFormState(): void {
+    localStorage.removeItem('postFormData');
+    this.post = { title: '', content: '' };
+  }
+
   onSubmit(): void {
     this.postService.createPost(this.post).subscribe({
       next: (data) => {
         console.log('Post created successfully', data);
         this.toastService.show('Post created successfully', 'success');
+        this.clearFormState();
         this.router.navigate(['/']);
       },
       error: (error) => {
