@@ -25,13 +25,8 @@ import { ToastService } from '../../services/toast.service';
             maxlength="30"
             #titleInput="ngModel"
           />
-          <div class="character-count">
-            {{ post.title.length }}/30
-          </div>
-          @if (
-            titleInput.invalid &&
-            (titleInput.dirty || titleInput.touched)
-          ) {
+          <div class="character-count">{{ post.title.length }}/30</div>
+          @if (titleInput.invalid && (titleInput.dirty || titleInput.touched)) {
             <div class="error-message">
               @if (titleInput.errors?.['required']) {
                 <div>Title is required.</div>
@@ -53,12 +48,9 @@ import { ToastService } from '../../services/toast.service';
             maxlength="1000"
             #contentInput="ngModel"
           ></textarea>
-          <div class="character-count">
-            {{ post.content.length }}/1000
-          </div>
+          <div class="character-count">{{ post.content.length }}/1000</div>
           @if (
-            contentInput.invalid &&
-            (contentInput.dirty || contentInput.touched)
+            contentInput.invalid && (contentInput.dirty || contentInput.touched)
           ) {
             <div class="error-message">
               @if (contentInput.errors?.['required']) {
