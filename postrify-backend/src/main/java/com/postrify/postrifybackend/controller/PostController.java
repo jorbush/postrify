@@ -40,6 +40,9 @@ public class PostController {
   @PostMapping
   public ResponseEntity<PostResponseDTO> createPost(
       @RequestBody final PostRequest postRequest, final Authentication authentication) {
+    if (authentication == null) {
+      return ResponseEntity.status(401).build();
+    }
     String username = authentication.getName();
     User user = userService.findByUsername(username);
 
@@ -57,6 +60,9 @@ public class PostController {
       @PathVariable final Long id,
       @RequestBody final PostRequest postRequest,
       final Authentication authentication) {
+    if (authentication == null) {
+      return ResponseEntity.status(401).build();
+    }
     String username = authentication.getName();
     User user = userService.findByUsername(username);
 
@@ -71,6 +77,9 @@ public class PostController {
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deletePost(
       @PathVariable final Long id, final Authentication authentication) {
+    if (authentication == null) {
+      return ResponseEntity.status(401).build();
+    }
     String username = authentication.getName();
     User user = userService.findByUsername(username);
     postService.deletePost(id, user);

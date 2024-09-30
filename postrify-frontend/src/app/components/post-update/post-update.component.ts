@@ -169,6 +169,7 @@ export class PostUpdateComponent implements OnInit {
         },
         error: (error) => {
           console.error('Error fetching post data', error);
+          this.toastService.show('Error fetching post data', 'error');
         },
       });
     }
@@ -185,6 +186,13 @@ export class PostUpdateComponent implements OnInit {
       error: (error) => {
         console.error('Error updating post', error);
         this.toastService.show('Error updating post', 'error');
+        if (error.status === 401) {
+          this.toastService.show(
+            'You need to be logged in to update a post',
+            'error',
+          );
+          this.router.navigate(['/login']);
+        }
       },
     });
   }

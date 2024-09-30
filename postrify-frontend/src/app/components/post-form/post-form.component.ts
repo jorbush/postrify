@@ -165,6 +165,13 @@ export class PostFormComponent {
       error: (error) => {
         console.error('Error creating post', error);
         this.toastService.show('Error creating post', 'error');
+        if (error.status === 401) {
+          this.toastService.show(
+            'You need to be logged in to create a post',
+            'error',
+          );
+          this.router.navigate(['/login']);
+        }
       },
     });
   }
