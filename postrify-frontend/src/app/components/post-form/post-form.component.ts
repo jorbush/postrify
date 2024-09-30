@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Post } from '../../models/post.model';
 import { Router } from '@angular/router';
 import { PostService } from '../../services/post.service';
@@ -143,7 +143,7 @@ import { ToastService } from '../../services/toast.service';
     }
   `,
 })
-export class PostFormComponent implements OnInit {
+export class PostFormComponent {
   post: Post = {
     title: '',
     content: '',
@@ -154,8 +154,6 @@ export class PostFormComponent implements OnInit {
     private toastService: ToastService,
     private router: Router,
   ) {}
-
-  ngOnInit(): void {}
 
   onSubmit(): void {
     this.postService.createPost(this.post).subscribe({

@@ -12,8 +12,15 @@ import { CommonModule } from '@angular/common';
   template: `
     <div class="home-container">
       <div class="posts-grid">
-        @for (post of posts; track $index) {
-          <div class="post-card" (click)="viewPost(post.id)">
+        @for (post of posts; track post.id) {
+          <div
+            class="post-card"
+            (click)="viewPost(post.id)"
+            role="button"
+            tabindex="0"
+            (keyup.enter)="viewPost(post.id)"
+            (keyup.space)="viewPost(post.id)"
+          >
             <h3>{{ post.title }}</h3>
             <p>
               {{ post.content | slice: 0 : 100
@@ -27,7 +34,13 @@ import { CommonModule } from '@angular/common';
         }
       </div>
       @if (isLogged) {
-        <button class="floating-button" (click)="createPost()">+</button>
+        <button
+          class="floating-button"
+          (click)="createPost()"
+          aria-label="Create new post"
+        >
+          +
+        </button>
       }
     </div>
   `,
@@ -87,7 +100,7 @@ import { CommonModule } from '@angular/common';
 })
 export class HomeComponent implements OnInit {
   posts: PostResponseDTO[] = [];
-  isLogged: boolean = false;
+  isLogged = false;
 
   constructor(
     private postService: PostService,

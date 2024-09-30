@@ -14,7 +14,7 @@ describe('PostUpdateComponent', () => {
     mockActivatedRoute = {
       snapshot: {
         paramMap: {
-          get: (key: string) => '1',
+          get: () => '1',
         },
       },
     };

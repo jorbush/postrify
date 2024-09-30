@@ -211,7 +211,7 @@ import { CommonModule } from '@angular/common';
 })
 export class PostDetailComponent implements OnInit {
   post?: PostResponseDTO;
-  isLogged: boolean = false;
+  isLogged = false;
   username?: string;
 
   constructor(

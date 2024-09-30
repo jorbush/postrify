@@ -2,15 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
-
-interface RegisterResponse {
-  message: string;
-}
-
-interface LoginResponse {
-  token: string;
-  username: string;
-}
+import { LoginResponse } from '../models/login-response';
+import { RegisterResponse } from '../models/register-response';
 
 @Injectable({
   providedIn: 'root',
