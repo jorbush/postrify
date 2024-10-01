@@ -5,11 +5,12 @@ import { AuthService } from '../../services/auth.service';
 import { PostService } from '../../services/post.service';
 import { CommonModule } from '@angular/common';
 import { ToastService } from '../../services/toast.service';
+import { ReadingTimePipe } from '../../pipes/reading-time.pipe';
 
 @Component({
   selector: 'app-post-detail',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReadingTimePipe],
   template: `
     <div class="post-detail-container">
       @if (post) {
@@ -86,6 +87,9 @@ import { ToastService } from '../../services/toast.service';
           </div>
           <div class="post-meta">
             <span class="author">By: {{ post.user.username }}</span>
+            <span class="reading-time" aria-label="Estimated reading time">{{
+              post.content | readingTime
+            }}</span>
             <span class="date">{{ post.createdAt | date: 'mediumDate' }}</span>
           </div>
           <p class="post-body">{{ post.content }}</p>
