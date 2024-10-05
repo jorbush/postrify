@@ -22,7 +22,7 @@ public class PostService {
   @Autowired private UserService userService;
 
   @Transactional(readOnly = true)
-  public Page<PostResponseDTO> getAllPosts(Pageable pageable) {
+  public Page<PostResponseDTO> getAllPosts(final Pageable pageable) {
     return postRepository.findAll(pageable).map(this::convertToDTO);
   }
 

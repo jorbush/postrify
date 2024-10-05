@@ -28,7 +28,7 @@ public class PostController {
   @GetMapping
   public Page<PostResponseDTO> getAllPosts(
       @PageableDefault(page = 0, size = 10, sort = "updatedAt", direction = Sort.Direction.DESC)
-          Pageable pageable) {
+          final Pageable pageable) {
     return postService.getAllPosts(pageable);
   }
 
