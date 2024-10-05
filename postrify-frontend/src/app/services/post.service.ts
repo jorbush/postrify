@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Post } from '../models/post.model';
 import { PostResponseDTO } from '../models/post-response.model';
 import { environment } from '../../environments/environment';
+import { Page } from '../models/page.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,8 +14,15 @@ export class PostService {
 
   constructor(private http: HttpClient) {}
 
-  getAllPosts(): Observable<PostResponseDTO[]> {
-    return this.http.get<PostResponseDTO[]>(this.apiUrl);
+  getAllPosts(
+    page: number = 0,
+    size: number = 10,
+  ): Observable<Page<PostResponseDTO>> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<Page<PostResponseDTO>>(this.apiUrl, { params });
   }
 
   getPostById(id: number): Observable<PostResponseDTO> {

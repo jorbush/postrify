@@ -22,6 +22,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -41,6 +45,7 @@ class PostControllerTest {
     MockitoAnnotations.openMocks(this);
   }
 
+  @SuppressWarnings("unchecked")
   @Test
   void getAllPosts_Success() {
     UserDTO userDTO = new UserDTO(1L, "jordi", "jordi@mail.com");
@@ -52,13 +57,16 @@ class PostControllerTest {
             2L, "Post 2", "Content 2", userDTO, LocalDateTime.now(), LocalDateTime.now());
     List<PostResponseDTO> posts = Arrays.asList(post1, post2);
 
-    when(postService.getAllPosts()).thenReturn(posts);
+    Pageable pageable = PageRequest.of(0, 10);
+    Page<PostResponseDTO> page = new PageImpl<>(posts, pageable, posts.size());
 
-    List<PostResponseDTO> result = postController.getAllPosts();
+    when(postService.getAllPosts(pageable)).thenReturn(page);
+
+    Page<PostResponseDTO> result = postController.getAllPosts(pageable);
 
     assertNotNull(result);
-    assertEquals(2, result.size());
-    verify(postService, times(1)).getAllPosts();
+    assertEquals(2, result.getContent().size());
+    verify(postService, times(1)).getAllPosts(pageable);
   }
 
   @Test
