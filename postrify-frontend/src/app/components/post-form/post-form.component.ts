@@ -46,11 +46,11 @@ import { ToastService } from '../../services/toast.service';
             [(ngModel)]="post.content"
             required
             minlength="10"
-            maxlength="1000"
+            maxlength="5000"
             #contentInput="ngModel"
             (ngModelChange)="saveFormState()"
           ></textarea>
-          <div class="character-count">{{ post.content.length }}/1000</div>
+          <div class="character-count">{{ post.content.length }}/5000</div>
           @if (
             contentInput.invalid && (contentInput.dirty || contentInput.touched)
           ) {

@@ -175,6 +175,8 @@ import { ReadingTimePipe } from '../../pipes/reading-time.pipe';
         font-size: 1.1rem;
         line-height: 1.6;
         color: var(--body-text-color);
+        white-space: pre-wrap;
+        text-align: justify;
       }
 
       .loading {
