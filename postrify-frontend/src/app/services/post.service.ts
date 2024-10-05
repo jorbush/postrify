@@ -14,10 +14,7 @@ export class PostService {
 
   constructor(private http: HttpClient) {}
 
-  getAllPosts(
-    page: number,
-    size: number,
-  ): Observable<Page<PostResponseDTO>> {
+  getAllPosts(page: number, size: number): Observable<Page<PostResponseDTO>> {
     const params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
