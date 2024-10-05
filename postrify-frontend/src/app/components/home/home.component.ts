@@ -12,27 +12,29 @@ import { Page } from '../../models/page.model';
   imports: [CommonModule],
   template: `
     <div class="home-container">
-      <div class="posts-grid">
-        @for (post of posts; track post.id) {
-          <div
-            class="post-card"
-            (click)="viewPost(post.id)"
-            role="button"
-            tabindex="0"
-            (keyup.enter)="viewPost(post.id)"
-            (keyup.space)="viewPost(post.id)"
-          >
-            <h3>{{ post.title }}</h3>
-            <p>
-              {{ post.content | slice: 0 : 100
-              }}{{ post.content.length > 100 ? '...' : '' }}
-            </p>
-            <div class="post-meta">
-              <span>By: {{ post.user.username }}</span>
-              <span>{{ post.createdAt | date: 'short' }}</span>
+      <div class="posts-grid-container">
+        <div class="posts-grid">
+          @for (post of posts; track post.id) {
+            <div
+              class="post-card"
+              (click)="viewPost(post.id)"
+              role="button"
+              tabindex="0"
+              (keyup.enter)="viewPost(post.id)"
+              (keyup.space)="viewPost(post.id)"
+            >
+              <h3>{{ post.title }}</h3>
+              <p>
+                {{ post.content | slice: 0 : 100
+                }}{{ post.content.length > 100 ? '...' : '' }}
+              </p>
+              <div class="post-meta">
+                <span>By: {{ post.user.username }}</span>
+                <span>{{ post.createdAt | date: 'short' }}</span>
+              </div>
             </div>
-          </div>
-        }
+          }
+        </div>
       </div>
       <div class="pagination-controls" *ngIf="totalPages > 1">
         <button (click)="previousPage()" [disabled]="currentPage === 0">
@@ -67,6 +69,10 @@ import { Page } from '../../models/page.model';
     .home-container {
       padding: 20px;
       position: relative;
+    }
+
+    .posts-grid-container {
+      min-height: 85vh;
     }
 
     .posts-grid {
@@ -129,7 +135,7 @@ import { Page } from '../../models/page.model';
       padding: 8px 12px;
       margin: 0 2px;
       border: 1px solid var(--border-color);
-      background-color: white;
+      background-color: var(--header-bg);
       color: var(--text-color);
       border-radius: 4px;
       cursor: pointer;
