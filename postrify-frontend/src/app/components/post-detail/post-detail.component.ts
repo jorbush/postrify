@@ -6,11 +6,12 @@ import { PostService } from '../../services/post.service';
 import { CommonModule } from '@angular/common';
 import { ToastService } from '../../services/toast.service';
 import { ReadingTimePipe } from '../../pipes/reading-time.pipe';
+import { BoldTextPipe } from '../../pipes/bold-text.pipe';
 
 @Component({
   selector: 'app-post-detail',
   standalone: true,
-  imports: [CommonModule, ReadingTimePipe],
+  imports: [CommonModule, ReadingTimePipe, BoldTextPipe],
   template: `
     <div class="post-detail-container">
       @if (post) {
@@ -92,7 +93,7 @@ import { ReadingTimePipe } from '../../pipes/reading-time.pipe';
             }}</span>
             <span class="date">{{ post.createdAt | date: 'mediumDate' }}</span>
           </div>
-          <p class="post-body">{{ post.content }}</p>
+          <p class="post-body" [innerHTML]="post.content | boldText"></p>
         </article>
       } @else {
         <div class="loading">
@@ -175,6 +176,8 @@ import { ReadingTimePipe } from '../../pipes/reading-time.pipe';
         font-size: 1.1rem;
         line-height: 1.6;
         color: var(--body-text-color);
+        white-space: pre-wrap;
+        text-align: justify;
       }
 
       .loading {
