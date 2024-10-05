@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,16 +22,8 @@ public class PostService {
   @Autowired private UserService userService;
 
   @Transactional(readOnly = true)
-  public List<PostResponseDTO> getAllPosts() {
-    return postRepository.findAll().stream()
-        .map(this::convertToDTO)
-        .collect(
-            Collectors.collectingAndThen(
-                Collectors.toList(),
-                list -> {
-                  java.util.Collections.reverse(list);
-                  return list;
-                }));
+  public Page<PostResponseDTO> getAllPosts(final Pageable pageable) {
+    return postRepository.findAll(pageable).map(this::convertToDTO);
   }
 
   @Transactional(readOnly = true)
