@@ -158,10 +158,10 @@ import { Page } from '../../models/page.model';
 export class HomeComponent implements OnInit {
   posts: PostResponseDTO[] = [];
   isLogged = false;
-  currentPage: number = 0;
-  pageSize: number = 10;
-  totalPages: number = 0;
-  totalElements: number = 0;
+  currentPage = 0;
+  pageSize = 10;
+  totalPages = 0;
+  totalElements = 0;
 
   constructor(
     private postService: PostService,

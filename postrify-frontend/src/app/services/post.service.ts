@@ -15,13 +15,12 @@ export class PostService {
   constructor(private http: HttpClient) {}
 
   getAllPosts(
-    page: number = 0,
-    size: number = 10,
+    page: number,
+    size: number,
   ): Observable<Page<PostResponseDTO>> {
-    let params = new HttpParams()
+    const params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
-
     return this.http.get<Page<PostResponseDTO>>(this.apiUrl, { params });
   }
 
