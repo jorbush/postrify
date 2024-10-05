@@ -72,7 +72,7 @@ import { Page } from '../../models/page.model';
     }
 
     .posts-grid-container {
-      min-height: 85vh;
+      min-height: 65vh;
     }
 
     .posts-grid {
