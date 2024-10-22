@@ -70,6 +70,11 @@ import { AuthService } from '../../services/auth.service';
       </a>
       <div class="auth-container">
         @if (authService.isAuthenticated()) {
+          @if (userImage) {
+            <img [src]="userImage" alt="User Image" class="user-image" />
+          } @else {
+            <img src="assets/placeholder.jpg" alt="User Image" class="user-image" />
+          }
           <span class="username">{{ authService.getUsername() }}</span>
           <button class="logout-button" (click)="logout()">
             <svg
@@ -146,9 +151,11 @@ import { AuthService } from '../../services/auth.service';
         color: var(--header-text);
         font-weight: 500;
         padding-bottom: 5px;
+        margin-top: 5px;
       }
 
       .logout-button {
+        margin-top: 5px;
         color: var(--header-text);
       }
 
@@ -191,6 +198,19 @@ import { AuthService } from '../../services/auth.service';
           margin-right: 0rem;
         }
       }
+
+      @media (max-width: 400px) {
+        .username {
+          display: none;
+        }
+      }
+
+      .user-image {
+        width: 35px;
+        height: 35px;
+        border-radius: 10%;
+        margin-right: 0.5rem;
+      }
     `,
   ],
 })
@@ -199,6 +219,7 @@ export class HeaderComponent implements OnInit {
   logoSrc = 'assets/logo-light.png';
   isAuthenticated = false;
   username: string | null = null;
+  userImage: string | null = null;
 
   constructor(public authService: AuthService) {}
 
@@ -239,6 +260,9 @@ export class HeaderComponent implements OnInit {
     this.isAuthenticated = this.authService.isAuthenticated();
     if (this.isAuthenticated) {
       this.username = this.authService.getUsername();
+      this.authService.getUserImage().subscribe((image: string) => {
+        this.userImage = image;
+      });
     }
   }
 

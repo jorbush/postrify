@@ -20,6 +20,9 @@ public class User {
   @Column(nullable = false, unique = true)
   private String email;
 
+  @Column(columnDefinition = "TEXT")
+  private String image;
+
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   @JsonIgnore
   private List<Post> posts;
@@ -59,4 +62,13 @@ public class User {
   public void setPosts(final List<Post> posts) {
     this.posts = posts;
   }
+
+  public String getImage() {
+    return image;
+  }
+
+  public void setImage(final String image) {
+    this.image = image;
+  }
+
 }

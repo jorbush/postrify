@@ -29,6 +29,17 @@ public class UserService {
     return userRepository.save(user);
   }
 
+  public String getUserImage(String username) {
+    User user = findByUsername(username);
+    return user.getImage();
+  }
+
+  public void updateUserImage(String username, String base64Image) {
+    User user = findByUsername(username);
+    user.setImage(base64Image);
+    userRepository.save(user);
+  }
+
   public User findByUsername(final String username) {
     return userRepository
         .findByUsername(username)
