@@ -70,5 +70,4 @@ public class User {
   public void setImage(final String image) {
     this.image = image;
   }
-
 }

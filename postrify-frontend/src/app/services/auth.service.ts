@@ -59,12 +59,15 @@ export class AuthService {
 
   uploadUserImage(base64Image: string) {
     const username = this.getUsername();
-    return this.http.put(`${this.userApiUrl}/${username}/image`, base64Image, { responseType: 'text' });
+    return this.http.put(`${this.userApiUrl}/${username}/image`, base64Image, {
+      responseType: 'text',
+    });
   }
 
   getUserImage() {
     const username = this.getUsername();
-    return this.http.get(`${this.userApiUrl}/${username}/image`, { responseType: 'text' });
+    return this.http.get(`${this.userApiUrl}/${username}/image`, {
+      responseType: 'text',
+    });
   }
-
 }
