@@ -10,6 +10,7 @@ import { RegisterResponse } from '../models/register-response';
 })
 export class AuthService {
   private apiUrl = environment.apiUrl + '/api/auth';
+  private userApiUrl = environment.apiUrl + '/api/users';
 
   constructor(private http: HttpClient) {}
 
@@ -54,5 +55,19 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     return !!this.getToken();
+  }
+
+  uploadUserImage(base64Image: string) {
+    const username = this.getUsername();
+    return this.http.put(`${this.userApiUrl}/${username}/image`, base64Image, {
+      responseType: 'text',
+    });
+  }
+
+  getUserImage() {
+    const username = this.getUsername();
+    return this.http.get(`${this.userApiUrl}/${username}/image`, {
+      responseType: 'text',
+    });
   }
 }
