@@ -1,14 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { SettingsModalComponent } from '../settings-modal/settings-modal.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, SettingsModalComponent],
   template: `
     <header>
       <div class="toggle-container">
+        @if (authService.isAuthenticated()) {
+          <button (click)="openSettings()" class="settings-button">
+            <svg xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-settings"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" /><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /></svg>
+          </button>
+        }
         <button (click)="toggleDarkMode()" class="toggle-button">
           @if (isDarkMode) {
             <svg
@@ -102,6 +108,9 @@ import { AuthService } from '../../services/auth.service';
         }
       </div>
     </header>
+    @if (isSettingsOpen) {
+      <app-settings-modal (close)="isSettingsOpen = false"></app-settings-modal>
+    }
   `,
   styles: [
     `
@@ -159,7 +168,7 @@ import { AuthService } from '../../services/auth.service';
         color: var(--header-text);
       }
 
-      .toggle-button {
+      .toggle-button, .settings-button {
         color: var(--header-text);
       }
 
@@ -220,6 +229,7 @@ export class HeaderComponent implements OnInit {
   isAuthenticated = false;
   username: string | null = null;
   userImage: string | null = null;
+  isSettingsOpen = false;
 
   constructor(public authService: AuthService) {}
 
@@ -269,5 +279,13 @@ export class HeaderComponent implements OnInit {
   logout() {
     this.authService.logout();
     this.isAuthenticated = false;
+  }
+
+  openSettings() {
+    this.isSettingsOpen = true;
+  }
+
+  closeSettings() {
+    this.isSettingsOpen = false;
   }
 }
