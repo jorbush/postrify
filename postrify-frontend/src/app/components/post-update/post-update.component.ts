@@ -22,10 +22,10 @@ import { ToastService } from '../../services/toast.service';
             [(ngModel)]="post.title"
             required
             minlength="3"
-            maxlength="30"
+            maxlength="31"
             #titleInput="ngModel"
           />
-          <div class="character-count">{{ post.title.length }}/30</div>
+          <div class="character-count">{{ post.title.length }}/31</div>
           @if (titleInput.invalid && (titleInput.dirty || titleInput.touched)) {
             <div class="error-message">
               @if (titleInput.errors?.['required']) {
