@@ -94,14 +94,13 @@ import { SettingsModalComponent } from '../settings-modal/settings-modal.compone
       <div class="auth-container">
         @if (authService.isAuthenticated()) {
           <div
-              class="current-photo"
-              [style.backgroundImage]="
-                userImage
-                  ? 'url(' + userImage + ')'
-                  : 'url(/assets/placeholder.jpg)'
-              "
-            >
-          </div>
+            class="current-photo"
+            [style.backgroundImage]="
+              userImage
+                ? 'url(' + userImage + ')'
+                : 'url(/assets/placeholder.jpg)'
+            "
+          ></div>
           <span class="username">{{ authService.getUsername() }}</span>
           <button class="logout-button" (click)="logout()">
             <svg

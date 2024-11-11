@@ -225,7 +225,9 @@ import { BoldTextPipe } from '../../pipes/bold-text.pipe';
         }
       }
 
-      .author, .reading-time, .date {
+      .author,
+      .reading-time,
+      .date {
         display: flex;
         align-items: center;
         gap: 0.4rem;

@@ -176,13 +176,15 @@ import { Page } from '../../models/page.model';
       opacity: 0.5;
     }
 
-    .author, .date {
-        display: flex;
-        align-items: center;
-        gap: 0.4rem;
+    .author,
+    .date {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
     }
 
-    .post-card h3, .post-card p {
+    .post-card h3,
+    .post-card p {
       margin: 0;
     }
 
