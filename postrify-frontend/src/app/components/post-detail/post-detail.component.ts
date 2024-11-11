@@ -95,8 +95,7 @@ import { BoldTextPipe } from '../../pipes/bold-text.pipe';
                     ? 'url(' + post.user.image + ')'
                     : 'url(/assets/placeholder.jpg)'
                 "
-              >
-            </div>
+              ></div>
               {{ post.user.username }}
             </span>
             <span class="reading-time" aria-label="Estimated reading time">{{

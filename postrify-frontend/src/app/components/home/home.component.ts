@@ -29,31 +29,43 @@ import { Page } from '../../models/page.model';
                 }}{{ post.content.length > 100 ? '...' : '' }}
               </p>
               <div class="post-meta">
-                <span>By: {{ post.user.username }}</span>
-                <span>{{ post.createdAt | date: 'short' }}</span>
+                <span class="author">
+                  <div
+                    class="user-photo"
+                    [style.backgroundImage]="
+                      post.user.image
+                        ? 'url(' + post.user.image + ')'
+                        : 'url(/assets/placeholder.jpg)'
+                    "
+                  ></div>
+                  {{ post.user.username }}
+                </span>
+                <span class="date">{{ post.createdAt | date: 'short' }}</span>
               </div>
             </div>
           }
         </div>
       </div>
-      <div class="pagination-controls" *ngIf="totalPages > 1">
-        <button (click)="previousPage()" [disabled]="currentPage === 0">
-          Back
-        </button>
-
-        <span *ngFor="let page of [].constructor(totalPages); let i = index">
-          <button (click)="goToPage(i)" [class.active]="i === currentPage">
-            {{ i + 1 }}
+      @if (totalElements > 1) {
+        <div class="pagination-controls">
+          <button (click)="previousPage()" [disabled]="currentPage === 0">
+            Back
           </button>
-        </span>
 
-        <button
-          (click)="nextPage()"
-          [disabled]="currentPage === totalPages - 1"
-        >
-          Next
-        </button>
-      </div>
+          <span *ngFor="let page of [].constructor(totalPages); let i = index">
+            <button (click)="goToPage(i)" [class.active]="i === currentPage">
+              {{ i + 1 }}
+            </button>
+          </span>
+
+          <button
+            (click)="nextPage()"
+            [disabled]="currentPage === totalPages - 1"
+          >
+            Next
+          </button>
+        </div>
+      }
       @if (isLogged) {
         <button
           class="floating-button"
@@ -158,6 +170,22 @@ import { Page } from '../../models/page.model';
     .pagination-controls button[disabled] {
       cursor: not-allowed;
       opacity: 0.5;
+    }
+
+    .author, .date {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    .user-photo {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      border: 2px solid var(--border-color);
     }
   `,
 })
