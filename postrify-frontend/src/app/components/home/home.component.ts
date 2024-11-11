@@ -103,6 +103,8 @@ import { Page } from '../../models/page.model';
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      gap: 0.85rem;
+      padding-top: 2rem;
     }
 
     .post-card:hover {
@@ -178,6 +180,10 @@ import { Page } from '../../models/page.model';
         display: flex;
         align-items: center;
         gap: 0.4rem;
+    }
+
+    .post-card h3, .post-card p {
+      margin: 0;
     }
 
     .user-photo {
