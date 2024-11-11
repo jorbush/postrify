@@ -100,6 +100,9 @@ import { Page } from '../../models/page.model';
       padding: 15px;
       cursor: pointer;
       transition: box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .post-card:hover {
@@ -111,7 +114,6 @@ import { Page } from '../../models/page.model';
       justify-content: space-between;
       font-size: 0.9em;
       color: var(--secondary-text-color);
-      margin-top: 10px;
     }
 
     .floating-button {
