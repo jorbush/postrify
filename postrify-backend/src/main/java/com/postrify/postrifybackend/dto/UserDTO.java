@@ -4,11 +4,13 @@ public class UserDTO {
   private Long id;
   private String username;
   private String email;
+  private String image;
 
-  public UserDTO(final Long id, final String username, final String email) {
+  public UserDTO(final Long id, final String username, final String email, final String image) {
     this.id = id;
     this.username = username;
     this.email = email;
+    this.image = image;
   }
 
   public Long getId() {
@@ -33,5 +35,13 @@ public class UserDTO {
 
   public void setEmail(final String email) {
     this.email = email;
+  }
+
+  public String getImage() {
+    return image;
+  }
+
+  public void setImage(final String image) {
+    this.image = image;
   }
 }

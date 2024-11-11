@@ -87,7 +87,18 @@ import { BoldTextPipe } from '../../pipes/bold-text.pipe';
             <h1 class="post-title">{{ post.title }}</h1>
           </div>
           <div class="post-meta">
-            <span class="author">By: {{ post.user.username }}</span>
+            <span class="author">
+              <div
+                class="user-photo"
+                [style.backgroundImage]="
+                  post.user.image
+                    ? 'url(' + post.user.image + ')'
+                    : 'url(/assets/placeholder.jpg)'
+                "
+              >
+            </div>
+              {{ post.user.username }}
+            </span>
             <span class="reading-time" aria-label="Estimated reading time">{{
               post.content | readingTime
             }}</span>
@@ -213,6 +224,22 @@ import { BoldTextPipe } from '../../pipes/bold-text.pipe';
           background-color: initial;
           color: var(--header-text);
         }
+      }
+
+      .author, .reading-time, .date {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+
+      .user-photo {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        border: 2px solid var(--border-color);
       }
     `,
   ],
