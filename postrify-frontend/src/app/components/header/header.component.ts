@@ -1,14 +1,39 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { SettingsModalComponent } from '../settings-modal/settings-modal.component';
+import { Subscription } from 'rxjs';
+import { UserImageService } from '../../services/user-image.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, SettingsModalComponent],
   template: `
     <header>
       <div class="toggle-container">
+        @if (authService.isAuthenticated()) {
+          <button (click)="openSettings()" class="settings-button">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="icon icon-tabler icons-tabler-outline icon-tabler-settings"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"
+              />
+              <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+            </svg>
+          </button>
+        }
         <button (click)="toggleDarkMode()" class="toggle-button">
           @if (isDarkMode) {
             <svg
@@ -70,6 +95,14 @@ import { AuthService } from '../../services/auth.service';
       </a>
       <div class="auth-container">
         @if (authService.isAuthenticated()) {
+          <div
+            class="current-photo"
+            [style.backgroundImage]="
+              userImage
+                ? 'url(' + userImage + ')'
+                : 'url(/assets/placeholder.jpg)'
+            "
+          ></div>
           <span class="username">{{ authService.getUsername() }}</span>
           <button class="logout-button" (click)="logout()">
             <svg
@@ -97,6 +130,11 @@ import { AuthService } from '../../services/auth.service';
         }
       </div>
     </header>
+    @if (isSettingsOpen) {
+      <app-settings-modal
+        (closeModalEvent)="isSettingsOpen = false"
+      ></app-settings-modal>
+    }
   `,
   styles: [
     `
@@ -146,13 +184,16 @@ import { AuthService } from '../../services/auth.service';
         color: var(--header-text);
         font-weight: 500;
         padding-bottom: 5px;
+        margin-top: 5px;
       }
 
       .logout-button {
+        margin-top: 5px;
         color: var(--header-text);
       }
 
-      .toggle-button {
+      .toggle-button,
+      .settings-button {
         color: var(--header-text);
       }
 
@@ -191,21 +232,49 @@ import { AuthService } from '../../services/auth.service';
           margin-right: 0rem;
         }
       }
+
+      @media (max-width: 450px) {
+        .username {
+          display: none;
+        }
+      }
+
+      .current-photo {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        border: 2px solid var(--border-color);
+        margin-right: 0.5rem;
+      }
     `,
   ],
 })
 export class HeaderComponent implements OnInit {
+  private imageUpdateSubscription: Subscription | undefined;
+
   isDarkMode = false;
   logoSrc = 'assets/logo-light.png';
   isAuthenticated = false;
   username: string | null = null;
+  userImage: string | null = null;
+  isSettingsOpen = false;
 
-  constructor(public authService: AuthService) {}
+  constructor(
+    public authService: AuthService,
+    private userImageService: UserImageService,
+  ) {}
 
   ngOnInit() {
     this.loadDarkModePreference();
     this.updateLogo();
     this.checkAuthentication();
+    this.imageUpdateSubscription =
+      this.userImageService.imageUpdated$.subscribe(() => {
+        this.checkAuthentication();
+      });
   }
 
   toggleDarkMode() {
@@ -239,11 +308,22 @@ export class HeaderComponent implements OnInit {
     this.isAuthenticated = this.authService.isAuthenticated();
     if (this.isAuthenticated) {
       this.username = this.authService.getUsername();
+      this.authService.getUserImage().subscribe((image: string) => {
+        this.userImage = image;
+      });
     }
   }
 
   logout() {
     this.authService.logout();
     this.isAuthenticated = false;
+  }
+
+  openSettings() {
+    this.isSettingsOpen = true;
+  }
+
+  closeSettings() {
+    this.isSettingsOpen = false;
   }
 }

@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PostResponseDTO } from '../../models/post-response.model';
 import { PostService } from '../../services/post.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { Page } from '../../models/page.model';
+import { Subscription } from 'rxjs';
+import { UserImageService } from '../../services/user-image.service';
 
 @Component({
   selector: 'app-home',
@@ -29,31 +31,43 @@ import { Page } from '../../models/page.model';
                 }}{{ post.content.length > 100 ? '...' : '' }}
               </p>
               <div class="post-meta">
-                <span>By: {{ post.user.username }}</span>
-                <span>{{ post.createdAt | date: 'short' }}</span>
+                <span class="author">
+                  <div
+                    class="user-photo"
+                    [style.backgroundImage]="
+                      post.user.image
+                        ? 'url(' + post.user.image + ')'
+                        : 'url(/assets/placeholder.jpg)'
+                    "
+                  ></div>
+                  {{ post.user.username }}
+                </span>
+                <span class="date">{{ post.createdAt | date: 'short' }}</span>
               </div>
             </div>
           }
         </div>
       </div>
-      <div class="pagination-controls" *ngIf="totalPages > 1">
-        <button (click)="previousPage()" [disabled]="currentPage === 0">
-          Back
-        </button>
-
-        <span *ngFor="let page of [].constructor(totalPages); let i = index">
-          <button (click)="goToPage(i)" [class.active]="i === currentPage">
-            {{ i + 1 }}
+      @if (totalElements > 1) {
+        <div class="pagination-controls">
+          <button (click)="previousPage()" [disabled]="currentPage === 0">
+            Back
           </button>
-        </span>
 
-        <button
-          (click)="nextPage()"
-          [disabled]="currentPage === totalPages - 1"
-        >
-          Next
-        </button>
-      </div>
+          <span *ngFor="let page of [].constructor(totalPages); let i = index">
+            <button (click)="goToPage(i)" [class.active]="i === currentPage">
+              {{ i + 1 }}
+            </button>
+          </span>
+
+          <button
+            (click)="nextPage()"
+            [disabled]="currentPage === totalPages - 1"
+          >
+            Next
+          </button>
+        </div>
+      }
       @if (isLogged) {
         <button
           class="floating-button"
@@ -88,6 +102,11 @@ import { Page } from '../../models/page.model';
       padding: 15px;
       cursor: pointer;
       transition: box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 0.85rem;
+      padding-top: 2rem;
     }
 
     .post-card:hover {
@@ -99,7 +118,6 @@ import { Page } from '../../models/page.model';
       justify-content: space-between;
       font-size: 0.9em;
       color: var(--secondary-text-color);
-      margin-top: 10px;
     }
 
     .floating-button {
@@ -159,9 +177,33 @@ import { Page } from '../../models/page.model';
       cursor: not-allowed;
       opacity: 0.5;
     }
+
+    .author,
+    .date {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .post-card h3,
+    .post-card p {
+      margin: 0;
+    }
+
+    .user-photo {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      border: 2px solid var(--border-color);
+    }
   `,
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
+  private imageUpdateSubscription: Subscription | undefined;
+
   posts: PostResponseDTO[] = [];
   isLogged = false;
   currentPage = 0;
@@ -173,11 +215,16 @@ export class HomeComponent implements OnInit {
     private postService: PostService,
     private router: Router,
     private authService: AuthService,
+    private userImageService: UserImageService,
   ) {}
 
   ngOnInit(): void {
     this.fetchPosts(this.currentPage, this.pageSize);
     this.isLogged = this.authService.isAuthenticated();
+    this.imageUpdateSubscription =
+      this.userImageService.imageUpdated$.subscribe(() => {
+        this.fetchPosts(this.currentPage, this.pageSize);
+      });
   }
 
   fetchPosts(page: number, size: number): void {
@@ -221,13 +268,9 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  getPages(): number[] {
-    return Array(this.totalPages)
-      .fill(0)
-      .map((x, i) => i);
-  }
-
-  trackById(index: number, post: PostResponseDTO): number {
-    return post.id;
+  ngOnDestroy(): void {
+    if (this.imageUpdateSubscription) {
+      this.imageUpdateSubscription.unsubscribe();
+    }
   }
 }

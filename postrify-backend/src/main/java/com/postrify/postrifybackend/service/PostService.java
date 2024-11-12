@@ -74,7 +74,8 @@ public class PostService {
 
   private PostResponseDTO convertToDTO(final Post post) {
     User user = post.getUser();
-    UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getEmail());
+    UserDTO userDTO =
+        new UserDTO(user.getId(), user.getUsername(), user.getEmail(), user.getImage());
 
     return new PostResponseDTO(
         post.getId(),
