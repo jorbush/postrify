@@ -17,14 +17,14 @@ public class UserController {
   @Autowired private UserService userService;
 
   @GetMapping("/{username}/image")
-  public ResponseEntity<String> getUserImage(@PathVariable String username) {
+  public ResponseEntity<String> getUserImage(@PathVariable final String username) {
     String base64Image = userService.getUserImage(username);
     return ResponseEntity.ok(base64Image);
   }
 
   @PutMapping("/{username}/image")
   public ResponseEntity<String> updateUserImage(
-      @PathVariable String username, @RequestBody String base64Image) {
+      @PathVariable final String username, @RequestBody final String base64Image) {
     userService.updateUserImage(username, base64Image);
     return ResponseEntity.ok("User image updated successfully!");
   }

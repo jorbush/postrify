@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PostResponseDTO } from '../../models/post-response.model';
 import { PostService } from '../../services/post.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { Page } from '../../models/page.model';
+import { Subscription } from 'rxjs';
+import { UserImageService } from '../../services/user-image.service';
 
 @Component({
   selector: 'app-home',
@@ -199,7 +201,9 @@ import { Page } from '../../models/page.model';
     }
   `,
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
+  private imageUpdateSubscription: Subscription | undefined;
+
   posts: PostResponseDTO[] = [];
   isLogged = false;
   currentPage = 0;
@@ -211,11 +215,16 @@ export class HomeComponent implements OnInit {
     private postService: PostService,
     private router: Router,
     private authService: AuthService,
+    private userImageService: UserImageService,
   ) {}
 
   ngOnInit(): void {
     this.fetchPosts(this.currentPage, this.pageSize);
     this.isLogged = this.authService.isAuthenticated();
+    this.imageUpdateSubscription =
+      this.userImageService.imageUpdated$.subscribe(() => {
+        this.fetchPosts(this.currentPage, this.pageSize);
+      });
   }
 
   fetchPosts(page: number, size: number): void {
@@ -259,13 +268,9 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  getPages(): number[] {
-    return Array(this.totalPages)
-      .fill(0)
-      .map((x, i) => i);
-  }
-
-  trackById(index: number, post: PostResponseDTO): number {
-    return post.id;
+  ngOnDestroy(): void {
+    if (this.imageUpdateSubscription) {
+      this.imageUpdateSubscription.unsubscribe();
+    }
   }
 }

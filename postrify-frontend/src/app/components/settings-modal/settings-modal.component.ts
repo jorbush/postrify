@@ -1,17 +1,33 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { UserImageService } from '../../services/user-image.service';
 
 @Component({
   selector: 'app-settings-modal',
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="modal-overlay" (click)="closeModal()">
-      <div class="modal-container" (click)="$event.stopPropagation()">
+    <div
+      class="modal-overlay"
+      (click)="closeModal()"
+      (keydown.enter)="closeModal()"
+      tabindex="0"
+    >
+      <div
+        class="modal-container"
+        (click)="$event.stopPropagation()"
+        (keydown.enter)="$event.stopPropagation()"
+        tabindex="0"
+      >
         <div class="modal-header">
           <h2>Profile Configuration</h2>
-          <button class="close-button" (click)="closeModal()">
+          <button
+            class="close-button"
+            (click)="closeModal()"
+            (keydown.enter)="closeModal()"
+            tabindex="0"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -40,7 +56,12 @@ import { AuthService } from '../../services/auth.service';
                   : 'url(/assets/placeholder.jpg)'
               "
             >
-              <div class="photo-overlay" (click)="fileInput.click()">
+              <div
+                class="photo-overlay"
+                (click)="fileInput.click()"
+                (keydown.enter)="fileInput.click()"
+                tabindex="0"
+              >
                 <span>Change photo</span>
               </div>
             </div>
@@ -272,14 +293,17 @@ import { AuthService } from '../../services/auth.service';
   ],
 })
 export class SettingsModalComponent implements OnInit {
-  @Output() close = new EventEmitter<void>();
+  @Output() closeModalEvent = new EventEmitter<void>();
 
   selectedFile: File | null = null;
   previewUrl: string | null = null;
-  errorMessage: string = '';
-  isLoading: boolean = false;
+  errorMessage = '';
+  isLoading = false;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private userImageService: UserImageService,
+  ) {}
 
   ngOnInit() {
     this.loadCurrentUserImage();
@@ -299,7 +323,7 @@ export class SettingsModalComponent implements OnInit {
   }
 
   closeModal() {
-    this.close.emit();
+    this.closeModalEvent.emit();
   }
 
   onFileSelected(event: Event) {
@@ -340,6 +364,7 @@ export class SettingsModalComponent implements OnInit {
       this.authService.uploadUserImage(base64Image).subscribe({
         next: () => {
           this.isLoading = false;
+          this.userImageService.notifyImageUpdate();
           this.closeModal();
         },
         error: (error) => {

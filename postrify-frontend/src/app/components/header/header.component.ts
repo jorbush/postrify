@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { SettingsModalComponent } from '../settings-modal/settings-modal.component';
+import { Subscription } from 'rxjs';
+import { UserImageService } from '../../services/user-image.service';
 
 @Component({
   selector: 'app-header',
@@ -129,7 +131,9 @@ import { SettingsModalComponent } from '../settings-modal/settings-modal.compone
       </div>
     </header>
     @if (isSettingsOpen) {
-      <app-settings-modal (close)="isSettingsOpen = false"></app-settings-modal>
+      <app-settings-modal
+        (closeModalEvent)="isSettingsOpen = false"
+      ></app-settings-modal>
     }
   `,
   styles: [
@@ -229,7 +233,7 @@ import { SettingsModalComponent } from '../settings-modal/settings-modal.compone
         }
       }
 
-      @media (max-width: 400px) {
+      @media (max-width: 450px) {
         .username {
           display: none;
         }
@@ -249,6 +253,8 @@ import { SettingsModalComponent } from '../settings-modal/settings-modal.compone
   ],
 })
 export class HeaderComponent implements OnInit {
+  private imageUpdateSubscription: Subscription | undefined;
+
   isDarkMode = false;
   logoSrc = 'assets/logo-light.png';
   isAuthenticated = false;
@@ -256,12 +262,19 @@ export class HeaderComponent implements OnInit {
   userImage: string | null = null;
   isSettingsOpen = false;
 
-  constructor(public authService: AuthService) {}
+  constructor(
+    public authService: AuthService,
+    private userImageService: UserImageService,
+  ) {}
 
   ngOnInit() {
     this.loadDarkModePreference();
     this.updateLogo();
     this.checkAuthentication();
+    this.imageUpdateSubscription =
+      this.userImageService.imageUpdated$.subscribe(() => {
+        this.checkAuthentication();
+      });
   }
 
   toggleDarkMode() {

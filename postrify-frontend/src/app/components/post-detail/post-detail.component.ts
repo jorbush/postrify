@@ -7,6 +7,8 @@ import { CommonModule } from '@angular/common';
 import { ToastService } from '../../services/toast.service';
 import { ReadingTimePipe } from '../../pipes/reading-time.pipe';
 import { BoldTextPipe } from '../../pipes/bold-text.pipe';
+import { Subscription } from 'rxjs';
+import { UserImageService } from '../../services/user-image.service';
 
 @Component({
   selector: 'app-post-detail',
@@ -242,10 +244,24 @@ import { BoldTextPipe } from '../../pipes/bold-text.pipe';
         position: relative;
         border: 2px solid var(--border-color);
       }
+
+      @media (max-width: 500px) {
+        .post-detail-container {
+          padding: 0.5rem;
+        }
+        .post-title {
+          font-size: 2rem;
+        }
+        .post-content {
+          padding: 1rem;
+        }
+      }
     `,
   ],
 })
 export class PostDetailComponent implements OnInit {
+  private imageUpdateSubscription: Subscription | undefined;
+
   post?: PostResponseDTO;
   isLogged = false;
   username?: string;
@@ -256,6 +272,7 @@ export class PostDetailComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private toastService: ToastService,
+    private userImageService: UserImageService,
   ) {}
 
   ngOnInit(): void {
@@ -263,6 +280,10 @@ export class PostDetailComponent implements OnInit {
     this.fetchPost(postId);
     this.isLogged = this.authService.isAuthenticated();
     this.username = localStorage.getItem('username') || '';
+    this.imageUpdateSubscription =
+      this.userImageService.imageUpdated$.subscribe(() => {
+        this.fetchPost(postId);
+      });
   }
 
   fetchPost(id: number): void {
