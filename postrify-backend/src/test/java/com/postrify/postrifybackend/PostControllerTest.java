@@ -48,7 +48,7 @@ class PostControllerTest {
   @SuppressWarnings("unchecked")
   @Test
   void getAllPosts_Success() {
-    UserDTO userDTO = new UserDTO(1L, "jordi", "jordi@mail.com");
+    UserDTO userDTO = new UserDTO(1L, "jordi", "jordi@mail.com", null);
     PostResponseDTO post1 =
         new PostResponseDTO(
             1L, "Post 1", "Content 1", userDTO, LocalDateTime.now(), LocalDateTime.now());
@@ -69,10 +69,11 @@ class PostControllerTest {
     verify(postService, times(1)).getAllPosts(pageable);
   }
 
+  @SuppressWarnings("null")
   @Test
   void getPostById_Found() {
     Long postId = 1L;
-    UserDTO userDTO = new UserDTO(1L, "jordi", "jordi@mail.com");
+    UserDTO userDTO = new UserDTO(1L, "jordi", "jordi@mail.com", null);
     PostResponseDTO post =
         new PostResponseDTO(
             postId, "Post 1", "Content 1", userDTO, LocalDateTime.now(), LocalDateTime.now());
@@ -102,7 +103,7 @@ class PostControllerTest {
   @Test
   void getPostsByUser_Success() {
     Long userId = 1L;
-    UserDTO userDTO = new UserDTO(userId, "jordi", "jordi@mail.com");
+    UserDTO userDTO = new UserDTO(userId, "jordi", "jordi@mail.com", null);
     PostResponseDTO post1 =
         new PostResponseDTO(
             1L, "Post 1", "Content 1", userDTO, LocalDateTime.now(), LocalDateTime.now());
@@ -120,6 +121,7 @@ class PostControllerTest {
     verify(postService, times(1)).getPostsByUser(userId);
   }
 
+  @SuppressWarnings("null")
   @Test
   void createPost_Success() {
     PostRequest postRequest = new PostRequest();
@@ -136,7 +138,7 @@ class PostControllerTest {
             1L,
             postRequest.getTitle(),
             postRequest.getContent(),
-            new UserDTO(user.getId(), user.getUsername(), user.getEmail()),
+            new UserDTO(user.getId(), user.getUsername(), user.getEmail(), null),
             LocalDateTime.now(),
             LocalDateTime.now());
 
@@ -176,6 +178,7 @@ class PostControllerTest {
     verify(postService, times(0)).createPost(any(Post.class));
   }
 
+  @SuppressWarnings("null")
   @Test
   void updatePost_Success() {
     Long postId = 1L;
@@ -193,7 +196,7 @@ class PostControllerTest {
             postId,
             postRequest.getTitle(),
             postRequest.getContent(),
-            new UserDTO(user.getId(), user.getUsername(), user.getEmail()),
+            new UserDTO(user.getId(), user.getUsername(), user.getEmail(), null),
             LocalDateTime.now(),
             LocalDateTime.now());
 
