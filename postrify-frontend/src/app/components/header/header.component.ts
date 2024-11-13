@@ -154,6 +154,15 @@ import { UserImageService } from '../../services/user-image.service';
         flex: 1;
       }
 
+      @supports (-webkit-touch-callout: none) {
+        .toggle-container {
+          display: -webkit-flex;
+          display: flex;
+          -webkit-flex: 1;
+          flex: 1;
+        }
+      }
+
       .logo-container {
         text-align: center;
       }
