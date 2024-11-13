@@ -257,7 +257,8 @@ import { UserImageService } from '../../services/user-image.service';
           -webkit-flex: 1;
           flex: 1;
         }
-        .current-photo, .settings-button {
+        .current-photo,
+        .settings-button {
           margin: 0rem;
           margin-left: 1.5rem;
           padding: 0rem;

@@ -73,8 +73,7 @@ import { UserImageService } from '../../services/user-image.service';
           class="floating-button"
           (click)="createPost()"
           aria-label="Create new post"
-        >
-        </button>
+        ></button>
       }
     </div>
   `,
@@ -144,7 +143,7 @@ import { UserImageService } from '../../services/user-image.service';
     }
 
     .floating-button::before {
-      content: "+";
+      content: '+';
     }
 
     @supports (-webkit-touch-callout: none) {
