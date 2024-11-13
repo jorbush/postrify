@@ -74,7 +74,6 @@ import { UserImageService } from '../../services/user-image.service';
           (click)="createPost()"
           aria-label="Create new post"
         >
-          +
         </button>
       }
     </div>
@@ -124,8 +123,6 @@ import { UserImageService } from '../../services/user-image.service';
       position: fixed;
       bottom: 30px;
       right: 30px;
-      width: 60px;
-      height: 60px;
       background-color: var(--primary-color);
       color: white;
       border: none;
@@ -134,6 +131,27 @@ import { UserImageService } from '../../services/user-image.service';
       cursor: pointer;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       transition: background-color 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 60px;
+      min-height: 60px;
+      max-width: 60px;
+      width: auto;
+      height: auto;
+      aspect-ratio: 1;
+      overflow: hidden;
+    }
+
+    .floating-button::before {
+      content: "+";
+    }
+
+    @supports (-webkit-touch-callout: none) {
+      .floating-button::before {
+        display: inline-block;
+        transform: translateY(-7%);
+      }
     }
 
     .floating-button:hover {
