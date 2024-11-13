@@ -154,15 +154,6 @@ import { UserImageService } from '../../services/user-image.service';
         flex: 1;
       }
 
-      @supports (-webkit-touch-callout: none) {
-        .toggle-container {
-          display: -webkit-flex;
-          display: flex;
-          -webkit-flex: 1;
-          flex: 1;
-        }
-      }
-
       .logo-container {
         text-align: center;
       }
@@ -257,6 +248,20 @@ import { UserImageService } from '../../services/user-image.service';
         position: relative;
         border: 2px solid var(--border-color);
         margin-right: 0.5rem;
+      }
+
+      @supports (-webkit-touch-callout: none) {
+        .toggle-container {
+          display: -webkit-flex;
+          display: flex;
+          -webkit-flex: 1;
+          flex: 1;
+        }
+        .current-photo, .settings-button {
+          margin: 0rem;
+          margin-left: 1.5rem;
+          padding: 0rem;
+        }
       }
     `,
   ],
